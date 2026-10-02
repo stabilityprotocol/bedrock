@@ -1,0 +1,107 @@
+<mxGraphModel dx="700" dy="560" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="740" pageHeight="540" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+    <mxCell id="ttl" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=13;fontStyle=1;fontFamily=Helvetica;fontColor=#1a1a2e;" value="BedRock — Verification Flow" vertex="1">
+      <mxGeometry height="22" width="300" x="220" y="10" as="geometry" />
+    </mxCell>
+    <mxCell id="start" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;strokeColor=none;fontColor=#ffffff;fontSize=10;fontStyle=1;fontFamily=Helvetica;shadow=1;" value="Raw Video" vertex="1">
+      <mxGeometry height="32" width="120" x="310" y="38" as="geometry" />
+    </mxCell>
+    <mxCell id="seg0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#dee2e6;fontColor=#333333;fontSize=9;fontFamily=Helvetica;arcSize=40;" value="Hash First Chunk" vertex="1">
+      <mxGeometry height="26" width="120" x="310" y="82" as="geometry" />
+    </mxCell>
+    <mxCell id="roll0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#f9a825;fontColor=#333333;fontSize=9;fontStyle=1;fontFamily=Helvetica;arcSize=40;" value="Identity Hash" vertex="1">
+      <mxGeometry height="26" width="120" x="310" y="118" as="geometry" />
+    </mxCell>
+    <mxCell id="split_dec" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#f9a825;fontSize=8;fontStyle=2;fontColor=#999999;fontFamily=Helvetica;" value="parallel" vertex="1">
+      <mxGeometry height="36" width="70" x="335" y="154" as="geometry" />
+    </mxCell>
+    <mxCell id="a1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=9;fontFamily=Helvetica;arcSize=40;" value="Hash All Chunks" vertex="1">
+      <mxGeometry height="26" width="120" x="100" y="206" as="geometry" />
+    </mxCell>
+    <mxCell id="a2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=9;fontStyle=1;fontFamily=Helvetica;arcSize=40;" value="Local Trail" vertex="1">
+      <mxGeometry height="26" width="120" x="100" y="262" as="geometry" />
+    </mxCell>
+    <mxCell id="b1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#e65100;fontSize=9;fontFamily=Helvetica;arcSize=40;" value="Blockchain Lookup" vertex="1">
+      <mxGeometry height="26" width="120" x="510" y="206" as="geometry" />
+    </mxCell>
+    <mxCell id="b_dec" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#e65100;fontSize=8;fontStyle=1;fontFamily=Helvetica;" value="Found?" vertex="1">
+      <mxGeometry height="36" width="70" x="535" y="244" as="geometry" />
+    </mxCell>
+    <mxCell id="es3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#f9a825;fontSize=8;fontStyle=1;fontFamily=Helvetica;arcSize=40;shadow=1;" value="NOT FOUND" vertex="1">
+      <mxGeometry height="24" width="90" x="650" y="250" as="geometry" />
+    </mxCell>
+    <mxCell id="b2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#e65100;fontSize=9;fontFamily=Helvetica;arcSize=40;" value="Fetch Stored Hashes" vertex="1">
+      <mxGeometry height="26" width="130" x="570" y="298" as="geometry" />
+    </mxCell>
+    <mxCell id="b3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#e65100;fontSize=9;fontStyle=1;fontFamily=Helvetica;arcSize=40;" value="On-Chain Trail" vertex="1">
+      <mxGeometry height="26" width="130" x="570" y="336" as="geometry" />
+    </mxCell>
+    <mxCell id="cmp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#495057;fontSize=9;fontStyle=1;fontFamily=Helvetica;arcSize=40;" value="Compare Trails" vertex="1">
+      <mxGeometry height="26" width="120" x="310" y="380" as="geometry" />
+    </mxCell>
+    <mxCell id="cmp_dec" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#495057;fontSize=8;fontStyle=1;fontFamily=Helvetica;" value="Match?" vertex="1">
+      <mxGeometry height="36" width="70" x="335" y="416" as="geometry" />
+    </mxCell>
+    <mxCell id="es1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;fontSize=9;fontStyle=1;fontFamily=Helvetica;arcSize=40;shadow=1;" value="VERIFIED ✓" vertex="1">
+      <mxGeometry height="28" width="100" x="320" y="470" as="geometry" />
+    </mxCell>
+    <mxCell id="es2_find" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#c62828;fontSize=8;fontFamily=Helvetica;arcSize=40;" value="Find First Divergence" vertex="1">
+      <mxGeometry height="24" width="120" x="510" y="422" as="geometry" />
+    </mxCell>
+    <mxCell id="es2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#c62828;fontSize=9;fontStyle=1;fontFamily=Helvetica;arcSize=40;shadow=1;" value="TAMPERED ✗" vertex="1">
+      <mxGeometry height="28" width="100" x="520" y="462" as="geometry" />
+    </mxCell>
+    <mxCell id="e_find_es2" edge="1" parent="1" source="es2_find" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#c62828;strokeWidth=1;" target="es2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_start_seg0" edge="1" parent="1" source="start" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#adb5bd;strokeWidth=1;" target="seg0">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_seg0_roll0" edge="1" parent="1" source="seg0" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#adb5bd;strokeWidth=1;" target="roll0">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_roll0_split" edge="1" parent="1" source="roll0" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#adb5bd;strokeWidth=1;" target="split_dec">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_split_a1" edge="1" parent="1" source="split_dec" style="edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;curved=1;strokeColor=#1565c0;strokeWidth=1.5;fontColor=#1565c0;fontStyle=1;fontSize=8;fontFamily=Helvetica;" target="a1" value="PATH A (local)">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_split_b1" edge="1" parent="1" source="split_dec" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;curved=1;strokeColor=#e65100;strokeWidth=1.5;fontColor=#e65100;fontStyle=1;fontSize=8;fontFamily=Helvetica;" target="b1" value="PATH B (chain)">
+      <mxGeometry relative="1" as="geometry">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="e_a1_a2" edge="1" parent="1" source="a1" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#1565c0;strokeWidth=1;" target="a2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_b1_bdec" edge="1" parent="1" source="b1" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#e65100;strokeWidth=1;" target="b_dec">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_bdec_es3" edge="1" parent="1" source="b_dec" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeColor=#c62828;strokeWidth=1;fontColor=#c62828;fontStyle=1;fontSize=8;fontFamily=Helvetica;" target="es3" value="NO">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_bdec_b2" edge="1" parent="1" source="b_dec" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeColor=#2e7d32;strokeWidth=1;fontColor=#2e7d32;fontStyle=1;fontSize=8;fontFamily=Helvetica;" target="b2" value="YES">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_b2_b3" edge="1" parent="1" source="b2" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#e65100;strokeWidth=1;" target="b3">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_a2_cmp" edge="1" parent="1" source="a2" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=1;strokeColor=#1565c0;strokeWidth=1;" target="cmp">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_b3_cmp" edge="1" parent="1" source="b3" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;curved=1;strokeColor=#e65100;strokeWidth=1;" target="cmp">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_cmp_dec" edge="1" parent="1" source="cmp" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#495057;strokeWidth=1;" target="cmp_dec">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_dec_es1" edge="1" parent="1" source="cmp_dec" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeColor=#2e7d32;strokeWidth=1;fontColor=#2e7d32;fontStyle=1;fontSize=8;fontFamily=Helvetica;" target="es1" value="YES">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e_dec_es2" edge="1" parent="1" source="cmp_dec" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeColor=#c62828;strokeWidth=1;fontColor=#c62828;fontStyle=1;fontSize=8;fontFamily=Helvetica;" target="es2_find" value="NO">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+  </root>
+</mxGraphModel>

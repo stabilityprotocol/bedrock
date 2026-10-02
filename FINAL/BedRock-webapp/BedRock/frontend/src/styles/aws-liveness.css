@@ -1,0 +1,803 @@
+/*
+ * AWS Liveness styles — scoped copy of new_liveness_aws/frontend/src/styles.css
+ * All rules scoped under .aws-liveness-root to isolate from BedRock globals.
+ * DO NOT refactor, rename, simplify, combine, or convert to Tailwind/MUI sx.
+ */
+
+.aws-liveness-root .app-shell {
+  width: min(78vw, 1100px);
+  max-width: calc(100% - 32px);
+  margin: 0 auto;
+  min-height: 100dvh;
+  height: 100dvh;
+  padding: clamp(12px, 2.2vh, 28px) 0;
+  display: flex;
+  align-items: stretch;
+}
+
+.aws-liveness-root .hero-card,
+.aws-liveness-root .panel {
+  backdrop-filter: blur(18px);
+  background: linear-gradient(135deg, #13102F 0%, #302355 100%);
+  border: 1px solid rgba(232, 222, 248, 0.3);
+  border-radius: 28px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  color: #F4EEFF;
+}
+
+.aws-liveness-root .hero-card {
+  padding: 24px;
+  margin-bottom: 18px;
+}
+
+.aws-liveness-root .eyebrow,
+.aws-liveness-root .panel-label {
+  margin: 0 0 8px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8982AA;
+}
+
+.aws-liveness-root .hero-card h1,
+.aws-liveness-root .panel h2 {
+  margin: 0;
+}
+
+.aws-liveness-root .hero-card h1 {
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  line-height: 0.98;
+  max-width: 12ch;
+}
+
+.aws-liveness-root .lead {
+  max-width: 60ch;
+  margin: 16px 0 0;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: #94A3B8;
+}
+
+.aws-liveness-root .notice-grid,
+.aws-liveness-root .panel-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.aws-liveness-root .notice-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 20px;
+}
+
+.aws-liveness-root .notice-card {
+  padding: 20px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(232, 222, 248, 0.18);
+}
+
+.aws-liveness-root .notice-card.warning {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+.aws-liveness-root .notice-card h2 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.aws-liveness-root .notice-card p {
+  margin: 0;
+  color: #94A3B8;
+  line-height: 1.6;
+}
+
+.aws-liveness-root .panel-grid {
+  grid-template-columns: 360px minmax(0, 1fr) 320px;
+  align-items: start;
+}
+
+.aws-liveness-root .panel {
+  padding: 20px;
+}
+
+.aws-liveness-root .challenge-panel,
+.aws-liveness-root .saved-panel {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.aws-liveness-root .panel-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.aws-liveness-root .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(232, 222, 248, 0.15);
+  color: #E8DEF8;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.aws-liveness-root .badge.ok {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+}
+
+.aws-liveness-root .badge.warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+}
+
+.aws-liveness-root .badge.error {
+  background: rgba(220, 38, 38, 0.15);
+  color: #DC2626;
+}
+
+.aws-liveness-root .badge.danger {
+  background: rgba(220, 38, 38, 0.15);
+  color: #f87171;
+}
+
+.aws-liveness-root .config-list {
+  display: grid;
+  gap: 16px;
+  margin: 0 0 24px;
+}
+
+.aws-liveness-root .config-list div {
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(232, 222, 248, 0.12);
+}
+
+.aws-liveness-root .config-list dt {
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #8B78C1;
+}
+
+.aws-liveness-root .config-list dd {
+  margin: 0;
+  word-break: break-word;
+  color: #F4EEFF;
+}
+
+.aws-liveness-root .button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.aws-liveness-root .primary-button,
+.aws-liveness-root .secondary-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 18px;
+  cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.aws-liveness-root .primary-button {
+  background: #6750A4;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(103, 80, 164, 0.35);
+}
+
+.aws-liveness-root .secondary-button {
+  background: rgba(103, 80, 164, 0.15);
+  color: #8B78C1;
+  border: 2px solid rgba(103, 80, 164, 0.45);
+}
+
+.aws-liveness-root .primary-button:hover {
+  background: #8B78C1;
+  box-shadow: 0 10px 28px rgba(139, 120, 193, 0.4);
+  transform: translateY(-1px);
+}
+
+.aws-liveness-root .secondary-button:hover {
+  background: rgba(103, 80, 164, 0.28);
+  border-color: rgba(139, 120, 193, 0.6);
+  transform: translateY(-1px);
+}
+
+.aws-liveness-root .primary-button:disabled,
+.aws-liveness-root .secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+}
+
+.aws-liveness-root .info-text,
+.aws-liveness-root .error-text {
+  padding: 14px 16px;
+  border-radius: 16px;
+}
+
+.aws-liveness-root .status-stack {
+  display: grid;
+  gap: 12px;
+  margin-top: 0;
+  flex: 0 0 auto;
+}
+
+.aws-liveness-root .status-stack:empty {
+  display: none;
+}
+
+.aws-liveness-root .info-text {
+  background: rgba(232, 222, 248, 0.12);
+  color: #E8DEF8;
+  border: 1px solid rgba(232, 222, 248, 0.25);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+}
+
+.aws-liveness-root .error-text {
+  background: rgba(220, 38, 38, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+}
+
+.aws-liveness-root .detector-panel {
+  min-height: 0;
+}
+
+.aws-liveness-root .challenge-shell {
+  flex: 1 1 auto;
+  align-self: center;
+  width: 100%;
+  max-width: 100%;
+  height: clamp(480px, 68vh, 720px);
+  min-height: 480px;
+  transition: height 280ms ease, min-height 280ms ease;
+}
+
+.aws-liveness-root .challenge-shell--liveness-active {
+  height: clamp(480px, 68vh, 720px);
+  min-height: 480px;
+}
+
+.aws-liveness-root .challenge-shell--verifying {
+  height: clamp(480px, 68vh, 720px);
+  min-height: 480px;
+}
+
+.aws-liveness-root .challenge-shell--recording-expanded {
+  height: clamp(480px, 68vh, 720px);
+  min-height: 480px;
+}
+
+.aws-liveness-root .challenge-shell--framed {
+  border-radius: 24px;
+  border: 1px dashed rgba(103, 80, 164, 0.45);
+}
+
+.aws-liveness-root .loader-wrap,
+.aws-liveness-root .empty-state {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.aws-liveness-root .empty-state {
+  color: #8982AA;
+  padding: 24px;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+}
+
+.aws-liveness-root .detector-wrap {
+  min-height: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.aws-liveness-root .challenge-stage {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 24px;
+  isolation: isolate;
+}
+
+.aws-liveness-root .challenge-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(232, 222, 248, 0.15);
+  background: linear-gradient(180deg, #13102F 0%, #302355 100%);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.4);
+  transform-origin: center top;
+  transition:
+    opacity 280ms ease,
+    transform 280ms ease,
+    box-shadow 280ms ease;
+}
+
+.aws-liveness-root .challenge-card--liveness {
+  z-index: 2;
+}
+
+.aws-liveness-root .challenge-card--recording {
+  z-index: 1;
+}
+
+.aws-liveness-root .challenge-card--underlay {
+  pointer-events: none;
+}
+
+.aws-liveness-root .challenge-card--expanded {
+  z-index: 1;
+  transform: none;
+}
+
+.aws-liveness-root .challenge-card--recording.challenge-card--expanded {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.aws-liveness-root .challenge-card--exiting {
+  opacity: 0;
+  transform: translateY(-18px) scale(0.985);
+  pointer-events: none;
+}
+
+.aws-liveness-root .challenge-card-body {
+  height: 100%;
+}
+
+.aws-liveness-root .challenge-card-body--loading,
+.aws-liveness-root .challenge-card-body--placeholder {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.aws-liveness-root .challenge-card-body--loading p {
+  color: #F4EEFF;
+}
+
+.aws-liveness-root .challenge-card-body--liveness {
+  position: relative;
+  background: #fff;
+}
+
+.aws-liveness-root .challenge-card-body--recording {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.aws-liveness-root .challenge-helper-text {
+  margin: 0;
+  color: #8982AA;
+  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+}
+
+.aws-liveness-root .completion-state {
+  max-width: 34ch;
+}
+
+.aws-liveness-root .completion-title {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #F4EEFF;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.aws-liveness-root .completion-state p:last-child {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.aws-liveness-root .completion-state .primary-button {
+  margin-top: 18px;
+}
+
+.aws-liveness-root .challenge-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-block: 20px;
+  flex: 0 0 auto;
+}
+
+.aws-liveness-root .challenge-actions .primary-button {
+  min-width: 220px;
+}
+
+.aws-liveness-root .recording-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: #d61f45;
+  box-shadow: 0 0 0 6px rgba(214, 31, 69, 0.14);
+}
+
+.aws-liveness-root .recording-preview-frame {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.aws-liveness-root .challenge-card--recording.challenge-card--expanded .recording-preview-frame {
+  background: transparent;
+}
+
+.aws-liveness-root .recording-preview-anchor {
+  position: relative;
+  flex: 0 1 auto;
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+.aws-liveness-root .recording-preview-anchor--measured {
+  position: absolute;
+  max-width: none;
+  max-height: none;
+}
+
+.aws-liveness-root .recording-preview-video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scaleX(-1);
+}
+
+.aws-liveness-root .recording-video-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 16px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.aws-liveness-root .recording-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(16px);
+}
+
+.aws-liveness-root .recording-chip--rec {
+  background: rgba(220, 38, 38, 0.22);
+  border: 1px solid rgba(214, 31, 69, 0.35);
+  color: #f87171;
+}
+
+.aws-liveness-root .recording-chip--timer {
+  background: rgba(19, 16, 47, 0.9);
+  border: 1px solid rgba(232, 222, 248, 0.3);
+  color: #F4EEFF;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.aws-liveness-root .saved-card {
+  display: grid;
+  gap: 20px;
+  padding: 28px;
+  border-radius: 24px;
+  border: 1px solid rgba(232, 222, 248, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.aws-liveness-root .saved-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #F4EEFF;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.aws-liveness-root .saved-text {
+  margin: 0;
+  color: #94A3B8;
+  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+}
+
+.aws-liveness-root .saved-meta {
+  display: grid;
+  gap: 14px;
+}
+
+.aws-liveness-root .saved-meta-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(232, 222, 248, 0.12);
+}
+
+.aws-liveness-root .saved-meta-line span {
+  color: #8982AA;
+}
+
+.aws-liveness-root .saved-meta-line strong {
+  text-align: right;
+  word-break: break-word;
+  color: #F4EEFF;
+}
+
+.aws-liveness-root .saved-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.aws-liveness-root .saved-download-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.aws-liveness-root .liveness-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background: #0C0A17;
+}
+
+.aws-liveness-root .liveness-viewport > * {
+  width: 100%;
+  height: 100%;
+}
+
+.aws-liveness-root .liveness-viewport .amplify-liveness-camera-module--mobile,
+.aws-liveness-root .liveness-viewport .amplify-liveness-oval-canvas--mobile,
+.aws-liveness-root .liveness-viewport .amplify-liveness-freshness-canvas {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.aws-liveness-root .liveness-viewport .amplify-liveness-camera-module {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  align-items: stretch;
+  justify-content: flex-start;
+  border: 0;
+}
+
+.aws-liveness-root .liveness-viewport .amplify-liveness-video-anchor {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+}
+
+.aws-liveness-root .liveness-viewport .amplify-liveness-oval-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.aws-liveness-root .liveness-viewport .amplify-liveness-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Take hidden containers out of flow WITHOUT destroying them.
+   display:none prevents canvas initialisation inside; use position/size instead. */
+.aws-liveness-root .liveness-viewport .liveness-detector > .amplify-flex > [style*="visibility: hidden"] {
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Tailwind preflight adds [hidden]{display:none!important} which kills canvases
+   the Amplify widget toggles via the HTML hidden attribute. Override it. */
+.aws-liveness-root .liveness-viewport canvas[hidden] {
+  display: block !important;
+}
+
+.aws-liveness-root .liveness-viewport .amplify-liveness-overlay,
+.aws-liveness-root .liveness-viewport .amplify-liveness-start-screen-camera-select {
+  padding: 12px;
+}
+
+.aws-liveness-root .liveness-viewport .amplify-liveness-start-screen-camera-waiting {
+  height: 100%;
+  min-height: 0;
+}
+
+.aws-liveness-root .liveness-viewport .liveness-detector-check {
+  height: 100%;
+  gap: 12px;
+}
+
+.aws-liveness-root .liveness-viewport .liveness-detector-check > [style*="visibility: visible"]:empty,
+.aws-liveness-root .liveness-viewport .liveness-detector-check > [style*="visibility: hidden"]:empty {
+  display: none !important;
+}
+
+.aws-liveness-root .liveness-viewport .liveness-detector-check > .amplify-flex:last-child {
+  margin-top: auto;
+  padding-bottom: 12px;
+}
+
+.aws-liveness-root .liveness-viewport--external-start .liveness-detector-check > .amplify-flex:last-child {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.aws-liveness-root .liveness-viewport .amplify-liveness-recording-icon-container,
+.aws-liveness-root .liveness-viewport .amplify-liveness-cancel-container,
+.aws-liveness-root .liveness-viewport .amplify-liveness-instruction-overlay {
+  z-index: 3;
+}
+
+.aws-liveness-root .result-card {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.aws-liveness-root .result-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(232, 222, 248, 0.12);
+}
+
+.aws-liveness-root .result-line span {
+  color: #8982AA;
+}
+
+.aws-liveness-root .result-line strong {
+  text-align: right;
+  word-break: break-word;
+  color: #F4EEFF;
+}
+
+.aws-liveness-root .download-link {
+  display: inline-flex;
+  margin-bottom: 16px;
+  color: #8B78C1;
+  font-weight: 700;
+  text-decoration: none;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.aws-liveness-root .download-link:hover {
+  text-decoration: underline;
+}
+
+
+@media (max-width: 1100px) {
+  .aws-liveness-root .app-shell {
+    width: min(calc(100% - 24px), 900px);
+  }
+}
+
+@media (max-width: 760px) {
+  .aws-liveness-root .app-shell {
+    width: calc(100% - 20px);
+    padding-block: clamp(10px, 2vh, 20px);
+  }
+
+  .aws-liveness-root .hero-card,
+  .aws-liveness-root .panel {
+    border-radius: 24px;
+    padding: 20px;
+  }
+
+  .aws-liveness-root .notice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .aws-liveness-root .challenge-stage {
+    min-height: 0;
+  }
+
+  .aws-liveness-root .challenge-shell {
+    height: clamp(320px, 56vh, 520px);
+    min-height: 320px;
+  }
+
+  .aws-liveness-root .challenge-shell--liveness-active {
+    height: clamp(320px, 56vh, 520px);
+    min-height: 320px;
+  }
+
+  .aws-liveness-root .challenge-shell--verifying {
+    height: clamp(320px, 56vh, 520px);
+    min-height: 320px;
+  }
+
+  .aws-liveness-root .challenge-shell--recording-expanded {
+    height: clamp(320px, 56vh, 520px);
+    min-height: 320px;
+  }
+
+  .aws-liveness-root .recording-video-hud {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+  }
+
+  .aws-liveness-root .recording-chip {
+    min-height: 42px;
+    padding: 10px 14px;
+    font-size: 0.92rem;
+  }
+
+  .aws-liveness-root .saved-actions,
+  .aws-liveness-root .result-line {
+    flex-direction: column;
+  }
+}

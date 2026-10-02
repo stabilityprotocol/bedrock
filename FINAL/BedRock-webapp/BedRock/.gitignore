@@ -1,0 +1,25 @@
+# Dependencies
+**/node_modules/
+
+# Build outputs
+frontend/dist/
+
+# Environment secrets
+backend/.env
+frontend/.env
+**/.env.local
+
+# OS artifacts
+**/.DS_Store
+**/Thumbs.db
+
+# Logs
+**/npm-debug.log*
+**/*.log
+
+# Claude Code session data
+.claude/
+
+# Recording artifacts
+*.mp4
+*.webm

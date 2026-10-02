@@ -1,0 +1,7 @@
+picamera2
+Pillow
+bullmq
+requests
+adafruit-circuitpython-rgb-display
+adafruit-circuitpython-busdevice
+RPi.GPIO

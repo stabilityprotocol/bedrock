@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VerificationFlow version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!--
+    BedRock Video Verification Flow
+    High-Level Technical Overview
+    ================================
+    This document describes the end-to-end cryptographic verification pipeline,
+    from raw video bytes through on-chain hash comparison, terminating in one of
+    three definitive end states.
+  -->
+
+  <Overview>
+    <Description>
+      BedRock verifies video authenticity by recomputing a rolling SHA-256 hash
+      chain over fixed-size video segments, then comparing the resulting trail
+      against immutable HashRecorded events stored in a per-video Subcontract on
+      the Stability blockchain. Any modification to any byte of the original
+      recording is detectable down to the 1.25 MB segment level.
+    </Description>
+    <Constants>
+      <Constant name="SEG_SIZE" value="1310720" unit="bytes" label="1.25 MB per segment" />
+      <Constant name="HASH_ALGORITHM" value="SHA-256" />
+      <Constant name="HASH_OUTPUT_SIZE" value="32" unit="bytes" />
+      <Constant name="HASH_HEX_LENGTH" value="64" unit="characters" />
+    </Constants>
+  </Overview>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PHASE 1 — SEGMENT HASHING (bytes → segment hashes)
+       ═══════════════════════════════════════════════════════════ -->
+  <Phase id="1" name="SegmentHashing">
+    <Title>Hash Video Buffer into Segment Digests</Title>
+    <Description>
+      The raw video file buffer is divided into fixed-size segments. Each segment
+      is zero-padded to exactly SEG_SIZE bytes before hashing, ensuring identical
+      output regardless of whether the segment is a full chunk or the final
+      short-tail chunk.
+    </Description>
+
+    <Steps>
+      <Step id="1.1">
+        <Action>Receive raw video file buffer (ArrayBuffer / Buffer)</Action>
+        <Detail>Accepted via multipart upload at POST /api/verify or loaded from disk in the offline rehash tool.</Detail>
+      </Step>
+
+      <Step id="1.2">
+        <Action>Iterate over the buffer in SEG_SIZE-byte windows</Action>
+        <Pseudocode>
+          for i in 0 .. ceil(fileSize / SEG_SIZE) - 1:
+              chunk = buffer[ i*SEG_SIZE : (i+1)*SEG_SIZE ]
+        </Pseudocode>
+      </Step>
+
+      <Step id="1.3">
+        <Action>Zero-pad each chunk to exactly SEG_SIZE bytes</Action>
+        <Pseudocode>
+          paddedChunk = new Uint8Array(SEG_SIZE)   // all zeros
+          paddedChunk.set(chunk)                   // overwrite leading bytes
+        </Pseudocode>
+        <Detail>
+          Zero-padding mirrors the frontend recording logic, which always writes
+          fixed-size typed arrays to disk. Without padding, a truncated final
+          segment would hash differently between environments.
+        </Detail>
+      </Step>
+
+      <Step id="1.4">
+        <Action>Compute segHash_i = SHA-256(paddedChunk)</Action>
+        <Detail>
+          Produces a 32-byte (256-bit) digest. Environment-specific implementations
+          produce identical byte output:
+          - Backend (Node.js): node:crypto createHash('sha256')
+          - Frontend (browser): crypto.subtle.digest("SHA-256", ...)
+          - Offline tool (Python): hashlib.sha256
+        </Detail>
+        <Output name="segHash_i" type="bytes32" />
+      </Step>
+    </Steps>
+  </Phase>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PHASE 2 — ROLLING HASH CHAIN (segment hashes → final hash)
+       ═══════════════════════════════════════════════════════════ -->
+  <Phase id="2" name="RollingHashChain">
+    <Title>Recalculate Rolling Hash Chain and Derive Final Hash</Title>
+    <Description>
+      Segment digests are chained together via successive SHA-256 hashes to
+      produce a tamper-evident rolling hash trail. Each entry in the trail
+      accumulates all prior video content; any modification at segment i
+      cascades forward and corrupts every subsequent rolling hash.
+    </Description>
+
+    <Steps>
+      <Step id="2.1">
+        <Action>Compute genesis rolling hash (segment 0)</Action>
+        <Pseudocode>
+          roll_0 = SHA-256( segHash_0 )
+        </Pseudocode>
+        <Detail>
+          The genesis value is a double-hash of the first segment's digest.
+          It serves as the video's unique on-chain identity key (see Phase 3).
+        </Detail>
+        <Output name="roll_0" type="bytes32" label="First Rolling Hash / Identity Hash" />
+      </Step>
+
+      <Step id="2.2">
+        <Action>Compute rolling hash for each subsequent segment i ≥ 1</Action>
+        <Pseudocode>
+          for i in 1 .. numSegments - 1:
+              roll_i = SHA-256( roll_{i-1} || segHash_i )
+        </Pseudocode>
+        <Detail>
+          || denotes byte-level concatenation of the two 32-byte digests,
+          yielding a 64-byte input to SHA-256.
+        </Detail>
+      </Step>
+
+      <Step id="2.3">
+        <Action>Store full rolling hash trail as array of records</Action>
+        <Pseudocode>
+          trail[i] = { index: i, segHashHex: hex(segHash_i), rollingHex: hex(roll_i) }
+        </Pseudocode>
+      </Step>
+
+      <Step id="2.4">
+        <Action>Extract finalRollingHex from last record</Action>
+        <Pseudocode>
+          calculatedFinalHash = trail[ numSegments - 1 ].rollingHex
+        </Pseudocode>
+        <Output name="calculatedFinalHash" type="hex64" label="Locally Calculated Final Hash" />
+      </Step>
+    </Steps>
+  </Phase>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PHASE 3 — ON-CHAIN LOOKUP (first hash → Subcontract address)
+       ═══════════════════════════════════════════════════════════ -->
+  <Phase id="3" name="OnChainLookup">
+    <Title>Search Blockchain for Subcontract Address Using First Hash</Title>
+    <Description>
+      The genesis rolling hash (roll_0) acts as a globally unique identity key.
+      The Grandfather smart contract maintains a registry mapping each video's
+      identity hash to the address of its per-video Subcontract. This phase
+      locates the correct Subcontract without the caller needing to supply it.
+    </Description>
+
+    <Steps>
+      <Step id="3.1">
+        <Action>Extract firstHash from the rolling hash trail</Action>
+        <Pseudocode>
+          firstHash = trail[0].rollingHex    // == roll_0 from Phase 2
+          firstHashBytes32 = "0x" + firstHash
+        </Pseudocode>
+        <Detail>
+          Called via computeFirstHash(fileBuffer) which internally calls
+          hashVideoBuffer() and returns records[0].rollingHex.
+        </Detail>
+      </Step>
+
+      <Step id="3.2">
+        <Action>Determine Subcontract address resolution path</Action>
+        <Branch>
+          <Case condition="subcontractAddress provided by caller in request body">
+            <Action>Validate address is a well-formed 20-byte hex string</Action>
+            <Action>Use provided address directly; skip on-chain lookup</Action>
+          </Case>
+          <Case condition="subcontractAddress NOT provided">
+            <Action>Proceed to on-chain lookup using firstHashBytes32</Action>
+          </Case>
+        </Branch>
+      </Step>
+
+      <Step id="3.3" condition="auto-resolve path">
+        <Action>Query Grandfather contract on Stability blockchain</Action>
+        <Pseudocode>
+          subcontractAddress = grandfather.getSubcontractByFirstHash(firstHashBytes32)
+        </Pseudocode>
+        <Detail>
+          The Grandfather contract is the factory and registry for all Subcontracts.
+          It stores a mapping: bytes32 firstHash => address subcontract.
+          Lookup is a read-only eth_call; no gas is required.
+        </Detail>
+      </Step>
+
+      <Step id="3.4">
+        <Action>Evaluate lookup result</Action>
+        <Branch>
+          <Case condition="returned address == 0x0000...0000 (zero address)">
+            <Action>Return null; trigger END STATE 3 — NOT FOUND</Action>
+          </Case>
+          <Case condition="returned address is a valid non-zero address">
+            <Action>Store as resolvedSubcontractAddress; proceed to Phase 4</Action>
+            <Output name="resolvedSubcontractAddress" type="address" label="Ethereum-compatible 20-byte address" />
+          </Case>
+        </Branch>
+      </Step>
+    </Steps>
+  </Phase>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PHASE 4 — ON-CHAIN HASH TRAIL (Subcontract → on-chain final hash)
+       ═══════════════════════════════════════════════════════════ -->
+  <Phase id="4" name="OnChainHashTrail">
+    <Title>Retrieve On-Chain Rolling Hash Trail from Subcontract</Title>
+    <Description>
+      With the Subcontract address resolved, the backend reads the contract state
+      and scrapes all HashRecorded events emitted during the original recording
+      session. These events constitute the immutable on-chain hash trail against
+      which the locally recalculated trail is compared.
+    </Description>
+
+    <Steps>
+      <Step id="4.1">
+        <Action>Authorize Subcontract as a legitimate child of Grandfather</Action>
+        <Pseudocode>
+          authorized = grandfather.isAuthorizedChild(resolvedSubcontractAddress)
+          if not authorized: throw UnauthorizedSubcontractError
+        </Pseudocode>
+        <Detail>Prevents forged or externally deployed contracts from spoofing verification results.</Detail>
+      </Step>
+
+      <Step id="4.2">
+        <Action>Read Subcontract state variables in parallel</Action>
+        <StateVariables>
+          <Variable name="owner" type="address" />
+          <Variable name="grandfather" type="address" />
+          <Variable name="totalEntries" type="uint256" label="Expected number of HashRecorded events" />
+          <Variable name="isInitialized" type="bool" />
+          <Variable name="isFinalized" type="bool" />
+          <Variable name="deploymentBlock" type="uint256" label="Starting block for event scrape" />
+        </StateVariables>
+      </Step>
+
+      <Step id="4.3">
+        <Action>Scrape all HashRecorded events from Subcontract</Action>
+        <Pseudocode>
+          events = []
+          for blockRange in chunks(deploymentBlock, latestBlock, chunkSize=25000):
+              events += subcontract.queryFilter("HashRecorded", blockRange)
+          events.sortBy(e => e.args.sequence)
+        </Pseudocode>
+        <EventSchema>
+          <Field name="previousHash" type="bytes32" />
+          <Field name="newHash" type="bytes32" label="Rolling hash submitted at this sequence" />
+          <Field name="sequence" type="uint256" label="Zero-based segment index" />
+          <Field name="blockNumber" type="uint256" />
+          <Field name="transactionHash" type="bytes32" />
+        </EventSchema>
+      </Step>
+
+      <Step id="4.4">
+        <Action>Retry if event count is less than totalEntries</Action>
+        <RetryPolicy>
+          <MaxRetries>10</MaxRetries>
+          <BackoffStrategy>Exponential (1s, 2s, 4s, 8s, cap at 8s)</BackoffStrategy>
+          <Reason>RPC log indexing lag on the Stability network</Reason>
+        </RetryPolicy>
+      </Step>
+
+      <Step id="4.5">
+        <Action>Extract on-chain final hash from last sorted event</Action>
+        <Pseudocode>
+          onChainFinalHash = events[ events.length - 1 ].args.newHash
+        </Pseudocode>
+        <Output name="onChainFinalHash" type="hex64" label="On-Chain Final Hash" />
+      </Step>
+    </Steps>
+  </Phase>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PHASE 5 — COMPARISON (trails → end state)
+       ═══════════════════════════════════════════════════════════ -->
+  <Phase id="5" name="Comparison">
+    <Title>Compare Calculated Trail Against On-Chain Trail</Title>
+    <Description>
+      Each element of the locally recalculated rolling hash trail is compared
+      against the corresponding on-chain HashRecorded event. A full match
+      produces VERIFIED. Any mismatch or length discrepancy produces TAMPERED,
+      with precise segment-level forensic information.
+    </Description>
+
+    <Steps>
+      <Step id="5.1">
+        <Action>Normalize both hash values for comparison</Action>
+        <Pseudocode>
+          normalize(h) = h.toLowerCase().replace(/^0x/, "")
+        </Pseudocode>
+      </Step>
+
+      <Step id="5.2">
+        <Action>Compare trail lengths</Action>
+        <Pseudocode>
+          if calculatedTrail.length != onChainTrail.length:
+              divergenceIndex = min(calculatedTrail.length, onChainTrail.length)
+              → trigger END STATE 2 — TAMPERED
+        </Pseudocode>
+      </Step>
+
+      <Step id="5.3">
+        <Action>Compare rolling hashes position-by-position</Action>
+        <Pseudocode>
+          for i in 0 .. trailLength - 1:
+              if normalize(calculatedTrail[i].rollingHex) != normalize(onChainTrail[i].newHash):
+                  divergenceIndex = i
+                  → trigger END STATE 2 — TAMPERED
+        </Pseudocode>
+      </Step>
+
+      <Step id="5.4">
+        <Action>No divergence found — all hashes match</Action>
+        <Pseudocode>
+          → trigger END STATE 1 — VERIFIED
+        </Pseudocode>
+      </Step>
+    </Steps>
+  </Phase>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       END STATES
+       ═══════════════════════════════════════════════════════════ -->
+  <EndStates>
+
+    <EndState id="1" name="VERIFIED" severity="success">
+      <Title>Video is Authentic</Title>
+      <TriggerCondition>
+        Every calculatedTrail[i].rollingHex matches onChainTrail[i].newHash for all i,
+        AND both trails have equal length.
+      </TriggerCondition>
+      <ResponsePayload>
+        <Field name="verified" value="true" />
+        <Field name="tampering" value="null" />
+        <Field name="calculatedFinalHash" type="hex64" />
+        <Field name="onChainFinalHash" type="hex64" />
+        <Field name="subcontractAddress" type="address" />
+        <Field name="segmentCount" type="uint256" />
+      </ResponsePayload>
+      <UIPresentation>
+        <Icon>ShieldCheck</Icon>
+        <Color>green</Color>
+        <Message>Verified / Video is Authentic</Message>
+        <Detail>Hash trail accordion with per-segment match summary and Subcontract details.</Detail>
+      </UIPresentation>
+    </EndState>
+
+    <EndState id="2" name="TAMPERED" severity="error">
+      <Title>Video Has Been Modified</Title>
+      <TriggerCondition>
+        At least one calculatedTrail[i].rollingHex does NOT match onChainTrail[i].newHash,
+        OR the two trails have different lengths.
+      </TriggerCondition>
+      <ResponsePayload>
+        <Field name="verified" value="false" />
+        <Field name="tampering">
+          <Field name="divergenceSegmentIndex" type="uint256" label="Zero-based index of first modified segment" />
+          <Field name="divergenceByteOffset" type="uint256" label="divergenceSegmentIndex * SEG_SIZE" />
+          <Field name="approximateSecond" type="float" label="Estimated video timestamp at divergence" />
+          <Field name="segmentStartSecond" type="float" label="Start of tampered segment in seconds" />
+          <Field name="segmentEndSecond" type="float" label="End of tampered segment in seconds" />
+          <Field name="calculatedHash" type="hex64" label="What we computed at divergence index" />
+          <Field name="onChainHash" type="hex64" label="What was recorded on-chain at divergence index" />
+        </Field>
+      </ResponsePayload>
+      <UIPresentation>
+        <Icon>XCircle</Icon>
+        <Color>red</Color>
+        <Message>Tampered / Video Has Been Modified</Message>
+        <Detail>
+          Segment timeline visualization: matching segments shown green, divergent
+          segment shown red, all subsequent segments shown faded-red (cascade-affected).
+          Clickable tampered-segment card seeks video playback to segmentStartSecond
+          and auto-pauses at segmentEndSecond.
+        </Detail>
+      </UIPresentation>
+      <CascadeNote>
+        Because each rolling hash chains into the next, a modification at segment i
+        invalidates all segments i+1 through N. The UI distinguishes the first
+        true divergence from cascade failures to pinpoint the actual tamper location.
+      </CascadeNote>
+    </EndState>
+
+    <EndState id="3" name="NOT_FOUND" severity="warning">
+      <Title>No Blockchain Record Found / Verification Error</Title>
+      <TriggerCondition>
+        EITHER: Grandfather.getSubcontractByFirstHash(firstHash) returns the zero address
+        (video identity hash not registered on-chain).
+        OR: A runtime error occurred — unauthorized subcontract, network failure,
+        malformed address, or unrecoverable RPC error.
+      </TriggerCondition>
+      <ResponsePayload>
+        <Field name="error" type="string" label="Human-readable error message" />
+        <Field name="hint" type="string" label="Present only for lookup-failure case; absent for generic errors" />
+      </ResponsePayload>
+      <UIPresentation>
+        <SubCase condition="hint field present (lookup failure)">
+          <Icon>AlertTriangle</Icon>
+          <Color>amber</Color>
+          <Message>No Blockchain Record Found</Message>
+          <Detail>
+            Explains two likely causes:
+            (a) The video's first segment was modified, changing its identity hash and
+                making it unresolvable against the original on-chain registration.
+            (b) The recording is still being written to the blockchain (write lag).
+          </Detail>
+        </SubCase>
+        <SubCase condition="hint field absent (generic error)">
+          <Icon>AlertCircle</Icon>
+          <Color>red</Color>
+          <Message>Verification Error</Message>
+          <Detail>Displays the error message string from the response payload.</Detail>
+        </SubCase>
+      </UIPresentation>
+    </EndState>
+
+  </EndStates>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FULL FLOW SEQUENCE (narrative summary)
+       ═══════════════════════════════════════════════════════════ -->
+  <FlowSequence>
+    <Step seq="1">Ingest raw video buffer from upload or disk.</Step>
+    <Step seq="2">Slice buffer into SEG_SIZE chunks; zero-pad each to SEG_SIZE.</Step>
+    <Step seq="3">Compute segHash_i = SHA-256(paddedChunk_i) for each segment.</Step>
+    <Step seq="4">Build rolling hash chain: roll_0 = SHA-256(segHash_0); roll_i = SHA-256(roll_{i-1} || segHash_i).</Step>
+    <Step seq="5">Extract firstHash = roll_0 (identity key) and calculatedFinalHash = roll_{N-1}.</Step>
+    <Step seq="6">Query Grandfather contract on-chain: getSubcontractByFirstHash(firstHash) → subcontractAddress.</Step>
+    <Step seq="7">If zero address returned → END STATE 3 (NOT FOUND).</Step>
+    <Step seq="8">Authorize subcontract as a legitimate child of Grandfather.</Step>
+    <Step seq="9">Read Subcontract state (totalEntries, deploymentBlock, isFinalized, …).</Step>
+    <Step seq="10">Scrape all HashRecorded events from deploymentBlock to latestBlock in 25,000-block chunks; retry up to 10× on count mismatch.</Step>
+    <Step seq="11">Sort events by sequence; extract onChainFinalHash = last event's newHash.</Step>
+    <Step seq="12">Compare calculatedTrail against onChain event trail position-by-position.</Step>
+    <Step seq="13">All match → END STATE 1 (VERIFIED).</Step>
+    <Step seq="14">First mismatch at index i → compute forensic metadata → END STATE 2 (TAMPERED).</Step>
+  </FlowSequence>
+
+</VerificationFlow>

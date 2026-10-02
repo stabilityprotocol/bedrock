@@ -1,0 +1,127 @@
+<mxfile host="app.diagrams.net" version="24.0.0">
+  <diagram name="Verification Flow — High Level" id="hl">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" /><mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="ttl" value="BedRock — Verification Flow (High Level)" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="14" width="700" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- START -->
+        <mxCell id="start" value="Raw Video Buffer" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;strokeColor=#6a6aaa;fontColor=#ffffff;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="60" width="260" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- SHARED: FIRST SEGMENT HASH -->
+        <mxCell id="seg0" value="Compute first segment hash&#xa;segHash₀ = SHA-256(paddedChunk₀)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="138" width="320" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- SHARED: FIRST ROLLING HASH (SPLIT POINT) -->
+        <mxCell id="roll0" value="roll₀ = SHA-256(segHash₀)&#xa;→ Identity Hash (firstHash)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6a800;fontColor=#333333;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="214" width="320" height="52" as="geometry" />
+        </mxCell>
+
+        <!-- SPLIT LABEL LEFT -->
+        <mxCell id="lbl_a" value="PATH A — Local Calculation" style="text;html=1;strokeColor=none;fillColor=#dae8fc;align=center;fontSize=11;fontStyle=1;fontColor=#1a73e8;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="298" width="280" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- SPLIT LABEL RIGHT -->
+        <mxCell id="lbl_b" value="PATH B — On-Chain Lookup" style="text;html=1;strokeColor=none;fillColor=#ffe6cc;align=center;fontSize=11;fontStyle=1;fontColor=#e65100;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="298" width="280" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- PATH A: ROLLING CHAIN -->
+        <mxCell id="a1" value="Continue rolling hash chain&#xa;roll_i = SHA-256(roll_{i-1} ∥ segHash_i)&#xa;for i = 1 → N-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1a73e8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="60" y="346" width="320" height="62" as="geometry" />
+        </mxCell>
+
+        <!-- PATH A: CALCULATED FINAL -->
+        <mxCell id="a2" value="calculatedFinalHash = roll_{N-1}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1a73e8;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="432" width="320" height="46" as="geometry" />
+        </mxCell>
+
+        <!-- PATH B: QUERY GRANDFATHER -->
+        <mxCell id="b1" value="Query Grandfather Contract&#xa;getSubcontractByFirstHash(roll₀)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#e65100;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="346" width="320" height="56" as="geometry" />
+        </mxCell>
+
+        <!-- PATH B: DECISION — FOUND? -->
+        <mxCell id="b_dec" value="Subcontract&#xa;Found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#e65100;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="422" width="160" height="72" as="geometry" />
+        </mxCell>
+
+        <!-- END STATE 3 -->
+        <mxCell id="es3" value="END STATE 3 — NOT FOUND&#xa;&#xa;Zero address returned from Grandfather.&#xa;Cause A: First segment was tampered&#xa;Cause B: Chain write still in progress" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="410" width="280" height="96" as="geometry" />
+        </mxCell>
+
+        <!-- PATH B: SCRAPE EVENTS -->
+        <mxCell id="b2" value="Authorize subcontract + read state&#xa;Scrape all HashRecorded events&#xa;(25k-block chunks, retry ×10)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#e65100;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="520" width="320" height="62" as="geometry" />
+        </mxCell>
+
+        <!-- PATH B: ON-CHAIN FINAL -->
+        <mxCell id="b3" value="onChainFinalHash = last event's newHash" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#e65100;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="606" width="320" height="46" as="geometry" />
+        </mxCell>
+
+        <!-- COMPARE -->
+        <mxCell id="cmp" value="Compare hash trails position-by-position&#xa;calculatedTrail[i] vs onChainTrail[i]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="690" width="320" height="54" as="geometry" />
+        </mxCell>
+
+        <!-- COMPARE DECISION -->
+        <mxCell id="cmp_dec" value="All hashes&#xa;match?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="768" width="180" height="72" as="geometry" />
+        </mxCell>
+
+        <!-- END STATE 1 -->
+        <mxCell id="es1" value="END STATE 1 — VERIFIED ✓&#xa;&#xa;All rolling hashes match on-chain.&#xa;verified: true&#xa;UI: Green ShieldCheck" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2e7d32;fontSize=11;fontStyle=1;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="540" y="868" width="320" height="96" as="geometry" />
+        </mxCell>
+
+        <!-- END STATE 2 -->
+        <mxCell id="es2" value="END STATE 2 — TAMPERED ✗&#xa;&#xa;First divergence at segment index i.&#xa;Byte offset = i × 1,310,720&#xa;Time window = [segStart, segEnd] seconds&#xa;All segments after i = cascade-affected&#xa;UI: Red XCircle + segment timeline" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b71c1c;fontSize=11;fontStyle=1;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="750" width="320" height="116" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════ EDGES ══════════════════ -->
+
+        <mxCell id="e_start_seg0" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="start" target="seg0" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_seg0_roll0" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="seg0" target="roll0" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Split left -->
+        <mxCell id="e_roll0_a1" value="PATH A" style="edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;curved=1;strokeColor=#1a73e8;fontColor=#1a73e8;fontStyle=1;" edge="1" source="roll0" target="a1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <!-- Split right -->
+        <mxCell id="e_roll0_b1" value="PATH B" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;curved=1;strokeColor=#e65100;fontColor=#e65100;fontStyle=1;" edge="1" source="roll0" target="b1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="e_a1_a2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a1" target="a2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e_b1_bdec" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b1" target="b_dec" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Found? → NO → ES3 -->
+        <mxCell id="e_bdec_es3" value="NO" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeColor=#d6b656;fontColor=#d6b656;fontStyle=1;" edge="1" source="b_dec" target="es3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <!-- Found? → YES → Scrape -->
+        <mxCell id="e_bdec_b2" value="YES" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeColor=#2e7d32;fontColor=#2e7d32;fontStyle=1;" edge="1" source="b_dec" target="b2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="e_b2_b3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b2" target="b3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Merge: Path A → Compare -->
+        <mxCell id="e_a2_cmp" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=1;strokeColor=#1a73e8;" edge="1" source="a2" target="cmp" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <!-- Merge: Path B → Compare -->
+        <mxCell id="e_b3_cmp" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;curved=1;strokeColor=#e65100;" edge="1" source="b3" target="cmp" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="e_cmp_dec" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="cmp" target="cmp_dec" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Match → YES → ES1 -->
+        <mxCell id="e_dec_es1" value="YES" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeColor=#2e7d32;fontColor=#2e7d32;fontStyle=1;" edge="1" source="cmp_dec" target="es1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <!-- Match → NO → ES2 -->
+        <mxCell id="e_dec_es2" value="NO" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeColor=#b71c1c;fontColor=#b71c1c;fontStyle=1;" edge="1" source="cmp_dec" target="es2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

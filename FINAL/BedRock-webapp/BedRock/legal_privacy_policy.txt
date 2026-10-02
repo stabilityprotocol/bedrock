@@ -1,0 +1,64 @@
+Privacy Policy
+Last updated: 28 March 2026
+This Privacy Policy outlines the responsibilities of Bedrock ("Bedrock", "we", "our", "us") in relation to the collection, processing, use, and disclosure of your Personal Data. It explains how we manage Personal Data when you use our application or contact us through our Services (collectively, the "Services").
+We are committed to complying with the Personal Data Protection Act 2012 (PDPA) of Singapore. This Policy should be read alongside any other terms and conditions governing your use of our Services.
+1. Personal Data We Collect and Process
+Bedrock does not collect Personal Data through the application itself. Video and audio content captured through the application is processed locally in your browser, held temporarily in cache for the duration of the session, and cleared once the cryptographic hash is generated. This content is never transmitted to or stored on Bedrock's servers.
+
+While such content may contain biometric characteristics such as facial features or voice, Bedrock does not process it for identification purposes and has no means of linking it to a named individual in the ordinary course of its operations.
+
+Cryptographic hashes and smart contract references derived from captured content are written to STABILITY's public blockchain and may remain publicly visible indefinitely. These are non-reversible digital fingerprints that cannot be used to reconstruct the original content or identify any individual, and do not constitute Personal Data.
+
+The only Personal Data Bedrock collects is what you voluntarily submit through our contact form, which may include your name, email address, and message content.
+2. Purpose for Collection, Processing, Use and Disclosure
+To the extent any data processed through the Services constitutes Personal Data, we process it only for the following purposes:
+
+(a)	to respond to enquiries submitted through our contact form;
+(b)	to generate cryptographic hashes, timestamps, and related integrity metadata for the purpose of anchoring evidence records to the blockchain;
+(c)	to process files uploaded for verification by re-hashing and comparing them against on-chain records;
+(d)	to verify the liveness of a user in connection with an evidence capture session, and to associate the resulting outcome with the relevant technical records;
+(e)	to maintain limited operational data (such as queue and deployment metadata) necessary for the functioning of the Services; and
+(f)	to comply with applicable laws, regulations, and requirements of any regulatory authority in Singapore.
+Bedrock does not sell, rent, or share your Personal Data with third parties for their own commercial purposes. Access to Personal Data is limited to persons whom we reasonably believe require access for the effective delivery of our Services or for the purposes set out herein.
+We may collect, use, and disclose Personal Data where authorised or required by law, or where directed by a relevant regulatory authority or court in Singapore.
+We may disclose or share your Personal Data in the following circumstances:
+(a)	Third-Party Service Providers: We may disclose your Personal Data to third parties contracted to assist us in delivering part or all of our Services, including infrastructure, identity verification, and technical support providers. Such parties act on our instructions and are required to handle Personal Data in a manner consistent with this Policy.
+(b)	With Your Consent: We may seek your consent to collect, use, or disclose your Personal Data for any purpose not set out herein.
+(c)	Business Transfers: In the event that Bedrock undergoes a merger, acquisition, or transfer of assets, Personal Data held by us may form part of the transferred assets. We will notify affected users where required by applicable law.
+Bedrock shall use its best endeavours to ensure that its employees, officers, and third-party service providers involved in the collection, processing, and disclosure of Personal Data observe and adhere to the terms of this Policy and applicable data protection obligations under the PDPA.
+3. Security
+We take reasonable and appropriate technical and organisational measures to protect Personal Data against unauthorised access, disclosure, modification, or destruction, in accordance with the PDPA’s protection obligation under section 24.
+
+These measures include encrypted data transmission, server memory handling for verification uploads (with no persistent storage), and access controls limiting exposure of contact form data to authorised personnel only. 
+4. Data Retention
+In accordance with the PDPA’s retention limitation obligation under section 25, we retain Personal Data only for as long as is necessary to fulfil the purpose for which it was collected.
+
+Files uploaded for verification are processed in server memory and deleted promptly upon completion of the verification request. They are not retained as long-term storage.
+
+Anchored hashes and smart contract references written to the public blockchain are permanent by nature and cannot be removed. As noted above, no raw Personal Data or media content is written to the blockchain.
+ 
+Contact form submissions are retained only for the duration necessary to address your enquiry and deleted within 30 days of resolution, or earlier upon request.
+5. Access and Correction
+Under sections 21 and 22 of the PDPA, you have the right to:
+
+-	request access to Personal Data we hold about you;
+-	request correction of any inaccurate or incomplete Personal Data; and
+-	withdraw consent to the collection, use, or disclosure of your Personal Data, subject to any legal or contractual restrictions.
+
+Please note that data anchored to the public blockchain cannot be modified or deleted due to its immutable nature. Any such data consists of cryptographic hashes only and does not constitute raw Personal Data.
+
+To exercise any of these rights, please contact our DPO at the details in section 7 below. We will respond within 30 days. Where a response cannot be provided within that period, we will notify you of the extended timeline in writing.
+6. Accuracy
+Bedrock encourages you to ensure that any Personal Data you submit to us, including through our contact form, is accurate and complete. If your information changes, or if you believe we hold inaccurate Personal Data about you, please contact our DPO using the details in section 7 so that we may update our records accordingly.
+7. Limitation of Liability
+To the fullest extent permitted by applicable law, Bedrock shall not be liable for any loss, damage, or claim arising from a third party's failure to comply with this Policy or applicable data protection laws, including where such failure results from that party providing inaccurate, incomplete, or misleading Personal Data, or from unauthorised use of our Services by that party.
+Where a data breach or unauthorised disclosure arises from circumstances beyond Bedrock's reasonable control, and Bedrock has taken reasonable measures to comply with its obligations under the PDPA, Bedrock's liability shall be limited to the extent permitted by law.
+Nothing in this clause limits Bedrock's obligations under the PDPA or excludes liability that cannot be excluded by law.
+8. Contact
+For enquiries regarding your Personal Data, including requests to access, correct, update, or withdraw your data, or to raise a complaint about how it is managed, please contact our Data Protection Officer (DPO) at: bedrock@gmail.com.
+
+
+
+This browser cannot access camera and microphone devices.
+
+This browser cannot access camera and microphone devices.dont need to check for isfinalized state change (would have happened if receipt is returned)

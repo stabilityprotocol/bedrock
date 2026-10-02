@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bedrock Brand Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600;1,8..60,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple-primary: #6750A4;
+    --purple-light: #8B78C1;
+    --purple-dark: #27174E;
+    --purple-pale: #F6F2FD;
+    --purple-accent: #E8DEF8;
+    --purple-text: #4A3C78;
+    --app-bg: #0C0A17;
+    --card-start: #13102F;
+    --card-end: #302355;
+    --pink-accent: #C026A0;
+    --gradient-orange: #FF9D00;
+    --gradient-violet: #7142FF;
+    --gradient-blue: #4043F1;
+    --gray-900: #1E293B;
+    --gray-600: #64748B;
+    --gray-400: #94A3B8;
+    --gray-300: #8982AA;
+    --white: #FFFFFF;
+    --off-white: #F4EEFF;
+    --success: #10B981;
+    --error: #DC2626;
+    --warning: #F59E0B;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0818;
+    color: var(--off-white);
+    width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ─── HEADER ─────────────────────────────────── */
+  .header {
+    background: linear-gradient(135deg, var(--card-start) 0%, var(--card-end) 100%);
+    border-bottom: 2px solid var(--purple-primary);
+    padding: 48px 60px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #6750A420, transparent 70%);
+  }
+  .header-left h1 {
+    font-size: 3.2rem;
+    font-weight: 900;
+    line-height: 1.05;
+    background: linear-gradient(135deg, var(--white) 0%, var(--purple-light) 60%, var(--pink-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header-left p {
+    margin-top: 8px;
+    color: var(--gray-300);
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+  }
+  .logo-placeholder-header {
+    width: 140px;
+    height: 56px;
+    border: 2px dashed var(--purple-primary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple-light);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .header-url {
+    background: var(--purple-primary);
+    padding: 6px 18px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: white;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── SECTION WRAPPER ─────────────────────────── */
+  .section {
+    padding: 56px 60px;
+    border-bottom: 1px solid rgba(137, 130, 170, 0.2);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  .section-title .dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--purple-primary);
+    flex-shrink: 0;
+  }
+  .section-title h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  /* ─── LOGO SECTION ────────────────────────────── */
+  .logo-variants {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .logo-variant-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--pink-accent);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .logo-variant-desc {
+    font-size: 0.8rem;
+    color: var(--gray-400);
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .logo-placeholder-main {
+    background: linear-gradient(135deg, var(--card-start), var(--card-end));
+    border: 2px dashed var(--purple-primary);
+    border-radius: 12px;
+    height: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--purple-light);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .logo-placeholder-main .placeholder-icon {
+    width: 36px; height: 36px;
+    border: 2px dashed var(--purple-primary);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+  .logo-on-bg {
+    border-radius: 12px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--gray-300);
+  }
+  .logo-on-bg.dark-bg { background: var(--app-bg); }
+  .logo-on-bg.light-bg { background: var(--purple-pale); }
+  .logo-on-bg.purple-bg { background: var(--purple-primary); }
+  .logo-bg-caption {
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--gray-400);
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  .logo-on-bg-label {
+    font-size: 0.65rem;
+    color: var(--gray-300);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  /* ─── COLOR PALETTE ───────────────────────────── */
+  .color-group-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--pink-accent);
+    font-weight: 700;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .color-group-title:first-child { margin-top: 0; }
+
+  .color-swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+  }
+  .swatch {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(137,130,170,0.25);
+  }
+  .swatch-color {
+    height: 56px;
+  }
+  .swatch-info {
+    background: rgba(19, 16, 47, 0.9);
+    padding: 8px 10px;
+  }
+  .swatch-name {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--off-white);
+    margin-bottom: 2px;
+  }
+  .swatch-hex {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gray-400);
+  }
+  .swatch-use {
+    font-size: 0.6rem;
+    color: var(--gray-600);
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+
+  /* ─── TYPOGRAPHY ──────────────────────────────── */
+  .type-hero {
+    margin-bottom: 32px;
+  }
+  .type-hero-display {
+    font-size: 5rem;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--white) 30%, var(--purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .type-hero-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gray-300);
+    margin-top: 6px;
+    font-weight: 600;
+  }
+  .type-specimen {
+    font-size: 1.1rem;
+    color: var(--gray-400);
+    margin-top: 8px;
+    letter-spacing: 0.04em;
+  }
+  .type-download {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 0.72rem;
+    color: var(--purple-light);
+    text-decoration: none;
+    border-bottom: 1px solid var(--purple-primary);
+    padding-bottom: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .type-scale {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .type-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 60px 60px;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(137,130,170,0.15);
+    gap: 16px;
+  }
+  .type-row:first-child { border-top: 1px solid rgba(137,130,170,0.15); }
+  .type-row-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--pink-accent);
+    font-weight: 700;
+  }
+  .type-row-sample {
+    color: var(--off-white);
+    line-height: 1.2;
+  }
+  .type-row-size {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--gray-400);
+    text-align: right;
+  }
+  .type-row-weight {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--gray-600);
+    text-align: right;
+  }
+
+  .weight-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 24px;
+    padding: 20px 0;
+    border-top: 1px solid rgba(137,130,170,0.15);
+  }
+  .weight-item {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+  .weight-item span {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-400);
+    margin-top: 6px;
+    font-weight: 400;
+  }
+
+  /* ─── COMPONENTS ──────────────────────────────── */
+  .component-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .component-group-title {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--pink-accent);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .btn-demo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    margin: 6px 6px 6px 0;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+  .btn-primary { background: var(--purple-primary); color: white; }
+  .btn-hover { background: var(--purple-light); color: white; }
+  .btn-outline { background: transparent; color: var(--purple-light); border: 2px solid var(--purple-primary); }
+  .btn-ghost { background: rgba(103,80,164,0.15); color: var(--purple-light); }
+  .btn-label {
+    font-size: 0.62rem;
+    color: var(--gray-400);
+    margin: 4px 6px 12px 2px;
+    display: block;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .card-demo {
+    background: linear-gradient(135deg, var(--card-start) 0%, var(--card-end) 100%);
+    border: 1px solid var(--gray-300);
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 0;
+  }
+  .card-demo-header {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--off-white);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-demo-header::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--purple-primary);
+  }
+  .card-demo-body {
+    font-size: 0.78rem;
+    color: var(--gray-400);
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .card-demo-action {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 12px;
+    border-top: 1px solid rgba(137,130,170,0.25);
+  }
+
+  .input-demo {
+    width: 100%;
+    background: rgba(19,16,47,0.8);
+    border: 1.5px solid var(--gray-300);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: var(--off-white);
+    margin-top: 10px;
+    outline: none;
+  }
+  .input-demo:focus {
+    border-color: var(--purple-primary);
+    box-shadow: 0 0 0 3px rgba(103,80,164,0.25);
+  }
+  .input-demo::placeholder { color: var(--gray-400); }
+
+  /* ─── SEMANTIC COLORS ─────────────────────────── */
+  .semantic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .semantic-card {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(137,130,170,0.2);
+  }
+  .semantic-bar {
+    height: 6px;
+  }
+  .semantic-body {
+    padding: 14px;
+  }
+  .semantic-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+  .semantic-swatches {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .semantic-chip {
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+  }
+  .semantic-desc {
+    font-size: 0.68rem;
+    color: var(--gray-400);
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+
+  /* ─── MOTION / GRADIENTS ──────────────────────── */
+  .gradient-strip {
+    height: 80px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, var(--gradient-violet) 0%, var(--gradient-blue) 35%, var(--purple-primary) 65%, var(--pink-accent) 100%);
+    /* Pink stop updated to #C026A0 — the actual Tier 1 emphasis accent used in the app */
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .gradient-strip::after {
+    content: 'Icon & Accent Gradient';
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .gradient-stops {
+    display: flex;
+    gap: 12px;
+  }
+  .gradient-stop {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .stop-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .stop-info {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--gray-400);
+    line-height: 1.4;
+  }
+  .stop-name {
+    color: var(--off-white);
+    font-weight: 700;
+  }
+
+  /* ─── CLEARSPACE ──────────────────────────────── */
+  .clearspace-demo {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    border: 1px solid rgba(137,130,170,0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .clearspace-inner {
+    position: relative;
+    border: 1.5px dashed rgba(103,80,164,0.5);
+    padding: 28px 36px;
+    border-radius: 4px;
+  }
+  .clearspace-logo {
+    display: flex; align-items: center; justify-content: center;
+    gap: 5px;
+  }
+  .clearspace-label {
+    position: absolute;
+    font-size: 0.6rem;
+    color: var(--pink-accent);
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .clearspace-label.top { top: -20px; left: 50%; transform: translateX(-50%); }
+  .clearspace-label.bottom { bottom: -20px; left: 50%; transform: translateX(-50%); }
+  .clearspace-label.left { left: -32px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+  .clearspace-label.right { right: -32px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+
+  /* ─── DESIGN PRINCIPLES ───────────────────────── */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .principle-card {
+    background: linear-gradient(135deg, var(--card-start), var(--card-end));
+    border: 1px solid var(--gray-300);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .principle-icon {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .principle-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--off-white);
+    margin-bottom: 6px;
+  }
+  .principle-desc {
+    font-size: 0.68rem;
+    color: var(--gray-400);
+    line-height: 1.5;
+  }
+
+  /* ─── FOOTER ──────────────────────────────────── */
+  .guide-footer {
+    background: linear-gradient(135deg, var(--card-start), var(--card-end));
+    padding: 32px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 2px solid var(--purple-primary);
+  }
+  .footer-brand {
+    font-size: 1.2rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--white), var(--purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .footer-version {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gray-400);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════ HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>Bedrock<br>Brand Guide</h1>
+    <p>High-Trust Evidence Workflows · Design System v1.0</p>
+  </div>
+  <div class="header-right">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <svg width="52" height="44" viewBox="0 0 181 154.283" fill="none" style="overflow:visible;">
+        <path d="M90.1594 5.11398L5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694L176 96.2769C159.372 91.8997 146.226 71.2975 133.08 50.6954C119.934 30.0933 106.788 9.49119 90.1594 5.11398Z" fill="#F4EEFF" fill-opacity="0.15"/>
+        <path d="M5 20.0587L90.1594 5.11398C106.788 9.49119 119.934 30.0933 133.08 50.6954C146.226 71.2975 159.372 91.8997 176 96.2769M5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694M5 20.0587V126.697M176 96.2769L90.1594 118.694M176 96.2769V126.697M176 96.2769C142.477 105.031 123.682 109.94 90.1594 118.694M90.1594 118.694V149.114M90.1594 118.694C90.1594 133.285 90.1594 134.523 90.1594 149.114M90.1594 149.114L5 126.697M90.1594 149.114L176 126.697M90.1594 149.114C56.9026 140.36 5 126.697 5 126.697M90.1594 149.114C123.682 140.36 176 126.697 176 126.697" stroke="#F4EEFF" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      <span style="font-family:'IBM Plex Sans',sans-serif;font-weight:900;font-size:1.6rem;color:#F4EEFF;line-height:1;">Bedrock.</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ LOGO USAGE -->
+<div class="section">
+  <div class="section-title"><div class="dot"></div><h2>Logo Usage</h2></div>
+  <div class="two-col">
+
+    <div>
+      <div class="logo-variants">
+        <div>
+          <div class="logo-variant-label">01. Full Logo</div>
+          <div class="logo-variant-desc">Primary mark — wordmark + icon. Use wherever space allows.</div>
+        </div>
+        <div>
+          <div class="logo-variant-label">02. Icon Mark</div>
+          <div class="logo-variant-desc">Symbol only. Use at small sizes or as a favicon/app icon.</div>
+        </div>
+        <div>
+          <div class="logo-variant-label">03. Wordmark</div>
+          <div class="logo-variant-desc">Text only. Use in contexts where icon is already present.</div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,#13102F,#302355);border-radius:16px;height:160px;display:flex;align-items:center;justify-content:center;gap:14px;margin-top:16px;">
+  <svg width="72" height="61" viewBox="0 0 181 154.283" fill="none" style="overflow:visible;">
+    <path d="M90.1594 5.11398L5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694L176 96.2769C159.372 91.8997 146.226 71.2975 133.08 50.6954C119.934 30.0933 106.788 9.49119 90.1594 5.11398Z" fill="#F4EEFF" fill-opacity="0.15"/>
+    <path d="M5 20.0587L90.1594 5.11398C106.788 9.49119 119.934 30.0933 133.08 50.6954C146.226 71.2975 159.372 91.8997 176 96.2769M5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694M5 20.0587V126.697M176 96.2769L90.1594 118.694M176 96.2769V126.697M176 96.2769C142.477 105.031 123.682 109.94 90.1594 118.694M90.1594 118.694V149.114M90.1594 118.694C90.1594 133.285 90.1594 134.523 90.1594 149.114M90.1594 149.114L5 126.697M90.1594 149.114L176 126.697M90.1594 149.114C56.9026 140.36 5 126.697 5 126.697M90.1594 149.114C123.682 140.36 176 126.697 176 126.697" stroke="#F4EEFF" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+  </svg>
+  <span style="font-family:'IBM Plex Sans',sans-serif;font-weight:900;font-size:2.4rem;color:#F4EEFF;line-height:1;">Bedrock.</span>
+</div>
+    </div>
+
+    <div>
+      <div class="logo-variant-label" style="margin-bottom:14px;">Background Variants</div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+        <div>
+          <div class="logo-on-bg dark-bg">
+            <div style="display:flex;align-items:center;gap:7px;">
+  <svg width="32" height="27" viewBox="0 0 181 154.283" fill="none" style="overflow:visible;"><path d="M90.1594 5.11398L5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694L176 96.2769C159.372 91.8997 146.226 71.2975 133.08 50.6954C119.934 30.0933 106.788 9.49119 90.1594 5.11398Z" fill="#F4EEFF" fill-opacity="0.15"/><path d="M5 20.0587L90.1594 5.11398C106.788 9.49119 119.934 30.0933 133.08 50.6954C146.226 71.2975 159.372 91.8997 176 96.2769M5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694M5 20.0587V126.697M176 96.2769L90.1594 118.694M176 96.2769V126.697M176 96.2769C142.477 105.031 123.682 109.94 90.1594 118.694M90.1594 118.694V149.114M90.1594 118.694C90.1594 133.285 90.1594 134.523 90.1594 149.114M90.1594 149.114L5 126.697M90.1594 149.114L176 126.697M90.1594 149.114C56.9026 140.36 5 126.697 5 126.697M90.1594 149.114C123.682 140.36 176 126.697 176 126.697" stroke="#F4EEFF" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/></svg>
+  <span style="font-family:'IBM Plex Sans',sans-serif;font-weight:900;font-size:1rem;color:#F4EEFF;line-height:1;">Bedrock.</span>
+</div>
+          </div>
+          <div class="logo-bg-caption">App Background<br><span style="font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--purple-light)">#0C0A17</span></div>
+        </div>
+        <div>
+          <div class="logo-on-bg light-bg">
+            <div style="display:flex;align-items:center;gap:7px;">
+  <svg width="32" height="27" viewBox="0 0 181 154.283" fill="none" style="overflow:visible;"><path d="M90.1594 5.11398L5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694L176 96.2769C159.372 91.8997 146.226 71.2975 133.08 50.6954C119.934 30.0933 106.788 9.49119 90.1594 5.11398Z" fill="#27174E" fill-opacity="0.12"/><path d="M5 20.0587L90.1594 5.11398C106.788 9.49119 119.934 30.0933 133.08 50.6954C146.226 71.2975 159.372 91.8997 176 96.2769M5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694M5 20.0587V126.697M176 96.2769L90.1594 118.694M176 96.2769V126.697M176 96.2769C142.477 105.031 123.682 109.94 90.1594 118.694M90.1594 118.694V149.114M90.1594 118.694C90.1594 133.285 90.1594 134.523 90.1594 149.114M90.1594 149.114L5 126.697M90.1594 149.114L176 126.697M90.1594 149.114C56.9026 140.36 5 126.697 5 126.697M90.1594 149.114C123.682 140.36 176 126.697 176 126.697" stroke="#27174E" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/></svg>
+  <span style="font-family:'IBM Plex Sans',sans-serif;font-weight:900;font-size:1rem;color:#27174E;line-height:1;">Bedrock.</span>
+</div>
+          </div>
+          <div class="logo-bg-caption">Light Surface<br><span style="font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--purple-light)">#F6F2FD</span></div>
+        </div>
+        <div>
+          <div class="logo-on-bg purple-bg">
+            <div style="display:flex;align-items:center;gap:7px;">
+  <svg width="32" height="27" viewBox="0 0 181 154.283" fill="none" style="overflow:visible;"><path d="M90.1594 5.11398L5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694L176 96.2769C159.372 91.8997 146.226 71.2975 133.08 50.6954C119.934 30.0933 106.788 9.49119 90.1594 5.11398Z" fill="#ffffff" fill-opacity="0.2"/><path d="M5 20.0587L90.1594 5.11398C106.788 9.49119 119.934 30.0933 133.08 50.6954C146.226 71.2975 159.372 91.8997 176 96.2769M5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694M5 20.0587V126.697M176 96.2769L90.1594 118.694M176 96.2769V126.697M176 96.2769C142.477 105.031 123.682 109.94 90.1594 118.694M90.1594 118.694V149.114M90.1594 118.694C90.1594 133.285 90.1594 134.523 90.1594 149.114M90.1594 149.114L5 126.697M90.1594 149.114L176 126.697M90.1594 149.114C56.9026 140.36 5 126.697 5 126.697M90.1594 149.114C123.682 140.36 176 126.697 176 126.697" stroke="#ffffff" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/></svg>
+  <span style="font-family:'IBM Plex Sans',sans-serif;font-weight:900;font-size:1rem;color:#ffffff;line-height:1;">Bedrock.</span>
+</div>
+          </div>
+          <div class="logo-bg-caption">Purple Primary<br><span style="font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--purple-light)">#6750A4</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <div class="clearspace-demo">
+          <div class="clearspace-inner">
+            <div class="clearspace-logo" style="border:none;width:auto;height:auto;padding:4px 8px;gap:5px;">
+  <svg width="22" height="19" viewBox="0 0 181 154.283" fill="none" style="overflow:visible;"><path d="M90.1594 5.11398L5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694L176 96.2769C159.372 91.8997 146.226 71.2975 133.08 50.6954C119.934 30.0933 106.788 9.49119 90.1594 5.11398Z" fill="#8B78C1" fill-opacity="0.2"/><path d="M5 20.0587L90.1594 5.11398C106.788 9.49119 119.934 30.0933 133.08 50.6954C146.226 71.2975 159.372 91.8997 176 96.2769M5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694M5 20.0587V126.697M176 96.2769L90.1594 118.694M176 96.2769V126.697M176 96.2769C142.477 105.031 123.682 109.94 90.1594 118.694M90.1594 118.694V149.114M90.1594 118.694C90.1594 133.285 90.1594 134.523 90.1594 149.114M90.1594 149.114L5 126.697M90.1594 149.114L176 126.697M90.1594 149.114C56.9026 140.36 5 126.697 5 126.697M90.1594 149.114C123.682 140.36 176 126.697 176 126.697" stroke="#8B78C1" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/></svg>
+  <span style="font-family:'IBM Plex Sans',sans-serif;font-weight:900;font-size:0.65rem;color:#8B78C1;line-height:1;">Bedrock.</span>
+</div>
+            <span class="clearspace-label top">½ x</span>
+            <span class="clearspace-label bottom">½ x</span>
+            <span class="clearspace-label left">½ x</span>
+            <span class="clearspace-label right">½ x</span>
+          </div>
+        </div>
+        <div style="font-size:0.68rem;color:var(--gray-400);margin-top:10px;line-height:1.5;">
+          <strong style="color:var(--pink-accent);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;">Minimum Clearspace</strong><br>
+          Always maintain a minimum clearspace of ½ × the logo height on all sides.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ COLOR -->
+<div class="section" style="background:linear-gradient(180deg, rgba(19,16,47,0.4) 0%, transparent 100%);">
+  <div class="section-title"><div class="dot"></div><h2>Colour Palette</h2></div>
+
+  <div class="color-group-title">Core Purple — Primary Actions & Branded Surfaces</div>
+  <div class="color-swatches">
+    <div class="swatch">
+      <div class="swatch-color" style="background:#6750A4;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Purple Primary</div>
+        <div class="swatch-hex">#6750A4</div>
+        <div class="swatch-use">Primary CTAs, action surfaces</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#8B78C1;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Purple Light</div>
+        <div class="swatch-hex">#8B78C1</div>
+        <div class="swatch-use">Hover / focus emphasis</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#27174E;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Purple Dark</div>
+        <div class="swatch-hex">#27174E</div>
+        <div class="swatch-use">Deep accent / strong contrast</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#F6F2FD;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Purple Pale</div>
+        <div class="swatch-hex">#F6F2FD</div>
+        <div class="swatch-use">Light informational surface</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#E8DEF8;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Purple Accent</div>
+        <div class="swatch-hex">#E8DEF8</div>
+        <div class="swatch-use">Highlight / soft emphasis</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#4A3C78;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Purple Text</div>
+        <div class="swatch-hex">#4A3C78</div>
+        <div class="swatch-use">Text on light-purple surfaces</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="color-group-title" style="margin-top:32px;">App Surfaces & Accent — Dark UI Foundation</div>
+  <div class="color-swatches">
+    <div class="swatch">
+      <div class="swatch-color" style="background:#0C0A17; border-bottom:1px solid #8982AA;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">App Background</div>
+        <div class="swatch-hex">#0C0A17</div>
+        <div class="swatch-use">Default app canvas</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:linear-gradient(135deg,#13102F,#302355);"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Card Gradient</div>
+        <div class="swatch-hex">#13102F → #302355</div>
+        <div class="swatch-use">Dark workflow cards</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#C026A0;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Pink Accent</div>
+        <div class="swatch-hex">#C026A0</div>
+        <div class="swatch-use">Tier 1 serif italic emphasis in section headings</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#FF9D00;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Gradient Orange</div>
+        <div class="swatch-hex">#FF9D00</div>
+        <div class="swatch-use">Upload icon gradient stop only</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#7142FF;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Gradient Violet</div>
+        <div class="swatch-hex">#7142FF</div>
+        <div class="swatch-use">Upload icon + loading logo gradient stop</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#4043F1;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Gradient Blue</div>
+        <div class="swatch-hex">#4043F1</div>
+        <div class="swatch-use">Upload icon + liveness flash gradient stop</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="color-group-title" style="margin-top:32px;">Neutral Scale — Text, Borders & Secondary Elements</div>
+  <div class="color-swatches">
+    <div class="swatch">
+      <div class="swatch-color" style="background:#1E293B;"></div>
+      <div class="swatch-info"><div class="swatch-name">Gray 900</div><div class="swatch-hex">#1E293B</div><div class="swatch-use">Primary text on light</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#64748B;"></div>
+      <div class="swatch-info"><div class="swatch-name">Gray 600</div><div class="swatch-hex">#64748B</div><div class="swatch-use">Secondary text</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#94A3B8;"></div>
+      <div class="swatch-info"><div class="swatch-name">Gray 400</div><div class="swatch-hex">#94A3B8</div><div class="swatch-use">Disabled / subdued</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#8982AA;"></div>
+      <div class="swatch-info"><div class="swatch-name">Gray 300</div><div class="swatch-hex">#8982AA</div><div class="swatch-use">Borders on dark cards</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#FFFFFF; border-bottom:1px solid #8982AA;"></div>
+      <div class="swatch-info"><div class="swatch-name">White</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-use">High-contrast elements</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#F4EEFF; border-bottom:1px solid #8982AA;"></div>
+      <div class="swatch-info"><div class="swatch-name">Off White</div><div class="swatch-hex">#F4EEFF</div><div class="swatch-use">Preferred on-dark body</div></div>
+    </div>
+  </div>
+
+  <div class="color-group-title" style="margin-top:32px;">Surface & Utility Tokens — Dark UI Overlays</div>
+  <div class="color-swatches">
+    <div class="swatch">
+      <div class="swatch-color" style="background:rgba(19,16,47,0.85);border-bottom:1px solid #8982AA;"></div>
+      <div class="swatch-info"><div class="swatch-name">Surface Overlay</div><div class="swatch-hex">rgba(19,16,47,0.85)</div><div class="swatch-use">Modal / card overlay surfaces</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:rgba(19,16,29,0.7);border-bottom:1px solid #8982AA;"></div>
+      <div class="swatch-info"><div class="swatch-name">Nav Background</div><div class="swatch-hex">rgba(19,16,29,0.7)</div><div class="swatch-use">Navbar backdrop blur surface</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:rgba(232,222,248,0.3);border-bottom:1px solid #8982AA;"></div>
+      <div class="swatch-info"><div class="swatch-name">Surface Border</div><div class="swatch-hex">rgba(232,222,248,0.3)</div><div class="swatch-use">Card / modal border on dark</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:rgba(255,255,255,0.04);border-bottom:1px solid #8982AA;"></div>
+      <div class="swatch-info"><div class="swatch-name">Interactive Overlay</div><div class="swatch-hex">rgba(255,255,255,0.04)</div><div class="swatch-use">Default interactive surface tint</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:rgba(255,255,255,0.10);border-bottom:1px solid #8982AA;"></div>
+      <div class="swatch-info"><div class="swatch-name">Interactive Hover</div><div class="swatch-hex">rgba(255,255,255,0.10)</div><div class="swatch-use">Hover state tint on dark surfaces</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:rgba(232,222,248,0.2);border-bottom:1px solid #8982AA;"></div>
+      <div class="swatch-info"><div class="swatch-name">Info Overlay</div><div class="swatch-hex">rgba(232,222,248,0.2)</div><div class="swatch-use">Informational / guidance blocks</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <div class="color-group-title">Icon & Accent Gradient — upload icon, loading logo, liveness flash</div>
+    <div class="gradient-strip"></div>
+    <div class="gradient-stops">
+      <div class="gradient-stop"><div class="stop-dot" style="background:#7142FF;"></div><div class="stop-info"><div class="stop-name">Violet</div>#7142FF</div></div>
+      <div class="gradient-stop"><div class="stop-dot" style="background:#4043F1;"></div><div class="stop-info"><div class="stop-name">Blue</div>#4043F1</div></div>
+      <div class="gradient-stop"><div class="stop-dot" style="background:#6750A4;"></div><div class="stop-info"><div class="stop-name">Purple</div>#6750A4</div></div>
+      <div class="gradient-stop"><div class="stop-dot" style="background:#C026A0;"></div><div class="stop-info"><div class="stop-name">Pink</div>#C026A0</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ TYPOGRAPHY -->
+<div class="section">
+  <div class="section-title"><div class="dot"></div><h2>Typography</h2></div>
+
+  <!-- Four-font system overview -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px;">
+
+    <div style="background:rgba(19,16,47,0.8);border:1px solid var(--gray-300);border-radius:12px;padding:20px;">
+      <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--pink-accent);font-weight:700;margin-bottom:10px;">Display</div>
+      <div style="font-family:'Source Serif 4',serif;font-size:2.4rem;font-weight:700;line-height:1;color:var(--off-white);margin-bottom:8px;">Aa</div>
+      <div style="font-family:'Source Serif 4',serif;font-size:0.9rem;font-weight:600;color:var(--off-white);margin-bottom:4px;">Source Serif 4</div>
+      <div style="font-size:0.68rem;color:var(--gray-400);line-height:1.5;margin-bottom:10px;">Hero h1 only + Tier 1 italic accent in section headings</div>
+      <div style="font-family:'Source Serif 4',serif;font-size:1rem;font-style:italic;color:var(--pink-accent);">"Verify <em>truth</em>"</div>
+    </div>
+
+    <div style="background:rgba(19,16,47,0.8);border:1px solid var(--gray-300);border-radius:12px;padding:20px;">
+      <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--pink-accent);font-weight:700;margin-bottom:10px;">UI / Structure</div>
+      <div style="font-family:'IBM Plex Sans',sans-serif;font-size:2.4rem;font-weight:600;line-height:1;color:var(--off-white);margin-bottom:8px;">Aa</div>
+      <div style="font-family:'IBM Plex Sans',sans-serif;font-size:0.9rem;font-weight:600;color:var(--off-white);margin-bottom:4px;">IBM Plex Sans</div>
+      <div style="font-size:0.68rem;color:var(--gray-400);line-height:1.5;margin-bottom:10px;">h2–h6, navbar, buttons, labels, cards, badges, eyebrows</div>
+      <div style="font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;font-weight:600;color:var(--purple-light);">01 &nbsp; The Platform</div>
+    </div>
+
+    <div style="background:rgba(19,16,47,0.8);border:1px solid var(--gray-300);border-radius:12px;padding:20px;">
+      <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--pink-accent);font-weight:700;margin-bottom:10px;">Body / Reading</div>
+      <div style="font-family:'Inter',sans-serif;font-size:2.4rem;font-weight:400;line-height:1;color:var(--off-white);margin-bottom:8px;">Aa</div>
+      <div style="font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:500;color:var(--off-white);margin-bottom:4px;">Inter</div>
+      <div style="font-size:0.68rem;color:var(--gray-400);line-height:1.5;margin-bottom:10px;">Body paragraphs, captions, help text, form fields, FAQ answers</div>
+      <div style="font-family:'Inter',sans-serif;font-size:0.82rem;color:var(--gray-400);line-height:1.6;">Sustained, readable copy at any length.</div>
+    </div>
+
+    <div style="background:rgba(19,16,47,0.8);border:1px solid var(--gray-300);border-radius:12px;padding:20px;">
+      <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--pink-accent);font-weight:700;margin-bottom:10px;">Mono / Data</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:2.4rem;font-weight:400;line-height:1;color:var(--off-white);margin-bottom:8px;">Aa</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.9rem;font-weight:500;color:var(--off-white);margin-bottom:4px;">IBM Plex Mono</div>
+      <div style="font-size:0.68rem;color:var(--gray-400);line-height:1.5;margin-bottom:10px;">Hashes, evidence IDs, blockchain refs, timestamps, audit logs</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--purple-light);">0xa7f3c2e1d9b8f4a6</div>
+    </div>
+
+  </div>
+
+  <!-- Type scale + Tier 1 emphasis -->
+  <div class="two-col">
+
+    <div>
+      <div style="font-size:0.65rem;color:var(--pink-accent);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">Type Scale</div>
+      <div class="type-scale">
+        <div class="type-row">
+          <div class="type-row-tag">Hero H1</div>
+          <div class="type-row-sample" style="font-family:'Source Serif 4',serif;font-size:1.8rem;font-weight:700;letter-spacing:-0.03em;">Verify Truth</div>
+          <div class="type-row-size">clamp 40–64px</div>
+          <div class="type-row-weight">700</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row-tag">H2</div>
+          <div class="type-row-sample" style="font-family:'IBM Plex Sans',sans-serif;font-size:1.4rem;font-weight:600;letter-spacing:-0.035em;">Section Heading</div>
+          <div class="type-row-size">28–36px</div>
+          <div class="type-row-weight">600</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row-tag">H3–H6</div>
+          <div class="type-row-sample" style="font-family:'IBM Plex Sans',sans-serif;font-size:1.1rem;font-weight:600;">Sub-section Title</div>
+          <div class="type-row-size">16–24px</div>
+          <div class="type-row-weight">600</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row-tag">Body L</div>
+          <div class="type-row-sample" style="font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:400;color:var(--off-white);">Standard body copy text</div>
+          <div class="type-row-size">17px</div>
+          <div class="type-row-weight">400</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row-tag">Body</div>
+          <div class="type-row-sample" style="font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:400;color:var(--off-white);">Description and captions</div>
+          <div class="type-row-size">16px</div>
+          <div class="type-row-weight">400</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row-tag">Eyebrow</div>
+          <div class="type-row-sample" style="font-family:'IBM Plex Sans',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray-300);">01 · Section Label</div>
+          <div class="type-row-size">11px</div>
+          <div class="type-row-weight">600</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row-tag">Mono</div>
+          <div class="type-row-sample" style="font-family:'IBM Plex Mono',monospace;font-size:0.78rem;color:var(--purple-light);">0xa7f3c2…d9b8f4a6</div>
+          <div class="type-row-size">13–14px</div>
+          <div class="type-row-weight">400</div>
+        </div>
+        <div class="type-row">
+          <div class="type-row-tag">Button</div>
+          <div class="type-row-sample" style="font-family:'IBM Plex Sans',sans-serif;font-size:0.82rem;font-weight:500;color:var(--purple-light);">Start Verification</div>
+          <div class="type-row-size">15px</div>
+          <div class="type-row-weight">500</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:0.65rem;color:var(--pink-accent);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">Inline Emphasis — Tier 1</div>
+      <div style="padding:20px;background:rgba(19,16,47,0.8);border:1px solid var(--gray-300);border-radius:12px;margin-bottom:20px;">
+        <div style="font-size:0.62rem;color:var(--gray-400);margin-bottom:12px;line-height:1.5;">One keyword per section heading accented with three-way contrast: serif italic + pink (#C026A0) inside an IBM Plex Sans heading.</div>
+        <!-- Live specimen -->
+        <div style="font-family:'IBM Plex Sans',sans-serif;font-size:1.1rem;font-weight:600;color:var(--off-white);letter-spacing:-0.02em;line-height:1.3;margin-bottom:8px;">Seeing is no longer <span style="font-family:'Source Serif 4',serif;font-style:italic;color:#C026A0;">enough</span>.</div>
+        <div style="font-family:'IBM Plex Sans',sans-serif;font-size:1.1rem;font-weight:600;color:var(--off-white);letter-spacing:-0.02em;line-height:1.3;margin-bottom:8px;">Proof at the moment of <span style="font-family:'Source Serif 4',serif;font-style:italic;color:#C026A0;">creation</span>.</div>
+        <div style="font-family:'IBM Plex Sans',sans-serif;font-size:1.1rem;font-weight:600;color:var(--off-white);letter-spacing:-0.02em;line-height:1.3;margin-bottom:8px;">Built for where <span style="font-family:'Source Serif 4',serif;font-style:italic;color:#C026A0;">certainty</span> matters most.</div>
+        <div style="font-family:'IBM Plex Sans',sans-serif;font-size:1.1rem;font-weight:600;color:var(--off-white);letter-spacing:-0.02em;line-height:1.3;margin-bottom:8px;">From capture to <span style="font-family:'Source Serif 4',serif;font-style:italic;color:#C026A0;">verified</span> in three steps.</div>
+        <div style="font-family:'IBM Plex Sans',sans-serif;font-size:1.1rem;font-weight:600;color:var(--off-white);letter-spacing:-0.02em;line-height:1.3;">Those who stand behind the <span style="font-family:'Source Serif 4',serif;font-style:italic;color:#C026A0;">integrity</span> of data.</div>
+      </div>
+
+      <div style="padding:16px;background:rgba(19,16,47,0.8);border:1px solid var(--gray-300);border-radius:12px;">
+        <div style="font-size:0.62rem;color:var(--pink-accent);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">Usage Rules</div>
+        <ul style="font-size:0.7rem;color:var(--gray-400);line-height:1.7;padding-left:14px;">
+          <li>Max 1 accented keyword per heading</li>
+          <li>Used in all 5 numbered section headings (01–05)</li>
+          <li>Never in body copy, captions, or step text</li>
+          <li>Always include <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">fontStyle: italic</code></li>
+          <li>Always include <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">fontFamily: Source Serif 4</code></li>
+          <li>Color is always <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">#C026A0</code></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ DEV TOKENS -->
+<div class="section" style="background:linear-gradient(180deg, rgba(19,16,47,0.4) 0%, transparent 100%);">
+  <div class="section-title"><div class="dot"></div><h2>Dev Reference — Typography Tokens</h2></div>
+  <p style="font-size:0.78rem;color:var(--gray-400);margin-bottom:28px;line-height:1.6;">All font and role tokens are exported from <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">src/theme.js</code> as <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">fontTokens</code> and <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">typeRoles</code>. Always import and use these — never hardcode font family strings.</p>
+
+  <div class="two-col">
+
+    <div>
+      <div style="font-size:0.65rem;color:var(--pink-accent);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px;">Token Map</div>
+      <div style="background:rgba(19,16,47,0.85);border:1px solid var(--gray-300);border-radius:12px;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 14px;border-bottom:1px solid rgba(137,130,170,0.2);">
+          <div style="font-size:0.62rem;font-weight:700;color:var(--gray-300);text-transform:uppercase;letter-spacing:0.1em;">Token</div>
+          <div style="font-size:0.62rem;font-weight:700;color:var(--gray-300);text-transform:uppercase;letter-spacing:0.1em;">Font</div>
+          <div style="font-size:0.62rem;font-weight:700;color:var(--gray-300);text-transform:uppercase;letter-spacing:0.1em;">Use</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 14px;border-bottom:1px solid rgba(137,130,170,0.1);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">fontTokens.display</div>
+          <div style="font-size:0.7rem;color:var(--off-white);">Source Serif 4</div>
+          <div style="font-size:0.68rem;color:var(--gray-400);">h1 hero, Tier 1 accent</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 14px;border-bottom:1px solid rgba(137,130,170,0.1);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">fontTokens.ui</div>
+          <div style="font-size:0.7rem;color:var(--off-white);">IBM Plex Sans</div>
+          <div style="font-size:0.68rem;color:var(--gray-400);">h2–h6, nav, buttons, labels</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 14px;border-bottom:1px solid rgba(137,130,170,0.1);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">fontTokens.body</div>
+          <div style="font-size:0.7rem;color:var(--off-white);">Inter</div>
+          <div style="font-size:0.68rem;color:var(--gray-400);">Body, captions, form fields</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 14px;border-bottom:1px solid rgba(137,130,170,0.1);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">fontTokens.mono</div>
+          <div style="font-size:0.7rem;color:var(--off-white);">IBM Plex Mono</div>
+          <div style="font-size:0.68rem;color:var(--gray-400);">Hashes, IDs, timestamps</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 14px;border-bottom:1px solid rgba(137,130,170,0.1);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">typeRoles.hero</div>
+          <div style="font-size:0.7rem;color:var(--off-white);">→ fontTokens.display</div>
+          <div style="font-size:0.68rem;color:var(--gray-400);">Landing hero h1</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 14px;border-bottom:1px solid rgba(137,130,170,0.1);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">typeRoles.sectionHeading</div>
+          <div style="font-size:0.7rem;color:var(--off-white);">→ fontTokens.ui</div>
+          <div style="font-size:0.68rem;color:var(--gray-400);">All section headings</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 14px;border-bottom:1px solid rgba(137,130,170,0.1);">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">typeRoles.body</div>
+          <div style="font-size:0.7rem;color:var(--off-white);">→ fontTokens.body</div>
+          <div style="font-size:0.68rem;color:var(--gray-400);">All reading copy</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 14px;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">typeRoles.metadata</div>
+          <div style="font-size:0.7rem;color:var(--off-white);">→ fontTokens.mono</div>
+          <div style="font-size:0.68rem;color:var(--gray-400);">Evidence data output</div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;padding:16px;background:rgba(19,16,47,0.85);border:1px solid var(--gray-300);border-radius:12px;">
+        <div style="font-size:0.62rem;color:var(--pink-accent);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">MUI Theme Cascade</div>
+        <div style="font-size:0.68rem;color:var(--gray-400);line-height:1.7;">
+          <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">variant="h1"</code> → Source Serif 4 700 — landing hero only<br>
+          <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">variant="h2"–"h6"</code> → IBM Plex Sans 600<br>
+          <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">variant="body1/2"</code> → Inter 400<br>
+          <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">variant="button"</code> → IBM Plex Sans 500<br>
+          <span style="color:#F59E0B;">⚠</span> Never use <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">variant="h1"</code> on inner pages — it triggers Source Serif 4
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:0.65rem;color:var(--pink-accent);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px;">Never Do</div>
+      <div style="background:rgba(19,16,47,0.85);border:1px solid rgba(220,38,38,0.3);border-radius:12px;padding:16px;margin-bottom:16px;">
+        <ul style="font-size:0.72rem;color:var(--gray-400);line-height:1.85;padding-left:14px;list-style:none;">
+          <li style="padding-left:0;">✕ &nbsp;Source Serif 4 on page titles, nav, forms, inner-page h1</li>
+          <li>✕ &nbsp;Inter for section headings or nav items (use IBM Plex Sans)</li>
+          <li>✕ &nbsp;Inter for hashes, IDs, evidence data (use IBM Plex Mono)</li>
+          <li>✕ &nbsp;Hardcode <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">"'Inter', sans-serif"</code> — import from <code style="font-family:'IBM Plex Mono',monospace;color:var(--purple-light);">fontTokens</code></li>
+          <li>✕ &nbsp;Pink italic emphasis inside body copy, captions, or step text</li>
+          <li>✕ &nbsp;More than one Tier 1 accent per heading</li>
+          <li>✕ &nbsp;Inventing a fifth font — only these four are loaded</li>
+          <li>✕ &nbsp;Loading extra weights beyond the declared subset</li>
+        </ul>
+      </div>
+
+      <div style="font-size:0.65rem;color:var(--pink-accent);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px;">Tracking &amp; Line-height</div>
+      <div style="background:rgba(19,16,47,0.85);border:1px solid var(--gray-300);border-radius:12px;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:8px 14px;border-bottom:1px solid rgba(137,130,170,0.2);">
+          <div style="font-size:0.62rem;font-weight:700;color:var(--gray-300);text-transform:uppercase;letter-spacing:0.1em;">Context</div>
+          <div style="font-size:0.62rem;font-weight:700;color:var(--gray-300);text-transform:uppercase;letter-spacing:0.1em;">Tracking</div>
+          <div style="font-size:0.62rem;font-weight:700;color:var(--gray-300);text-transform:uppercase;letter-spacing:0.1em;">Line-height</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:8px 14px;border-bottom:1px solid rgba(137,130,170,0.1);">
+          <div style="font-size:0.7rem;color:var(--off-white);">Hero h1</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">-0.03em</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">0.98</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:8px 14px;border-bottom:1px solid rgba(137,130,170,0.1);">
+          <div style="font-size:0.7rem;color:var(--off-white);">h2–h3</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">-0.02em</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">1.2</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:8px 14px;border-bottom:1px solid rgba(137,130,170,0.1);">
+          <div style="font-size:0.7rem;color:var(--off-white);">Body copy</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">-0.005em</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">1.75</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:8px 14px;border-bottom:1px solid rgba(137,130,170,0.1);">
+          <div style="font-size:0.7rem;color:var(--off-white);">Eyebrow</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">0.12em</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">—</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:8px 14px;">
+          <div style="font-size:0.7rem;color:var(--off-white);">Mono data</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">0</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--purple-light);">1.6</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ COMPONENTS -->
+<div class="section" style="background:linear-gradient(180deg, rgba(19,16,47,0.4) 0%, transparent 100%);">
+  <div class="section-title"><div class="dot"></div><h2>Component Styling</h2></div>
+  <div class="component-section">
+
+    <div>
+      <div class="component-group-title">Buttons — pill shape · border-radius: 100px</div>
+      <div>
+        <button class="btn-demo btn-primary">Primary Action</button>
+        <span class="btn-label">btn-primary · #6750A4</span>
+        <button class="btn-demo btn-hover">Hover / Focus</button>
+        <span class="btn-label">btn-hover · #8B78C1</span>
+        <button class="btn-demo btn-outline">Outline Button</button>
+        <span class="btn-label">btn-outline · transparent</span>
+        <button class="btn-demo btn-ghost">Ghost Button</button>
+        <span class="btn-label">btn-ghost · rgba overlay</span>
+      </div>
+
+      <div style="margin-top:28px;">
+        <div class="component-group-title">Inputs — border-radius: 8px</div>
+        <input class="input-demo" type="text" placeholder="Enter evidence reference ID…" />
+        <input class="input-demo" type="text" placeholder="Focus state ↓" style="margin-top:8px; border-color:var(--purple-primary); box-shadow: 0 0 0 3px rgba(103,80,164,0.25);" />
+      </div>
+    </div>
+
+    <div>
+      <div class="component-group-title">Cards — dark gradient workflow surfaces</div>
+      <div class="card-demo">
+        <div class="card-demo-header">Evidence Record #4821</div>
+        <div class="card-demo-body">This workflow card uses the dark gradient surface (Card Gradient Start → End) with a Gray 300 border. Information is grouped into a clear header → body → action row structure.</div>
+        <div class="card-demo-action">
+          <button class="btn-demo btn-primary" style="padding:7px 18px; font-size:0.78rem;">Verify Evidence</button>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <div class="component-group-title">Info Block — consent & guidance surfaces</div>
+        <div style="background:rgba(103,80,164,0.12); border:1px solid var(--gray-300); border-radius:10px; padding:16px;">
+          <div style="font-size:0.72rem; font-weight:700; color:var(--purple-light); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.08em;">ℹ Workflow Guidance</div>
+          <div style="font-size:0.78rem; color:var(--off-white); line-height:1.6;">Use info blocks for explanations, consent details, and workflow instructions that help users understand context before acting.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ SEMANTIC COLORS -->
+<div class="section">
+  <div class="section-title"><div class="dot"></div><h2>Semantic Colours</h2></div>
+  <p style="font-size:0.8rem;color:var(--gray-400);margin-bottom:24px;line-height:1.5;">Reserved strictly for status meaning. Never use these for decoration.</p>
+  <div class="semantic-grid">
+    <div class="semantic-card">
+      <div class="semantic-bar" style="background:var(--success);"></div>
+      <div class="semantic-body">
+        <div class="semantic-label" style="color:#10B981;">✓ Success</div>
+        <div class="semantic-swatches">
+          <div class="semantic-chip" style="background:#ECFDF5; color:#059669;">#ECFDF5</div>
+          <div class="semantic-chip" style="background:#34D399; color:#065f46;">#34D399</div>
+          <div class="semantic-chip" style="background:#10B981; color:white;">#10B981</div>
+          <div class="semantic-chip" style="background:#059669; color:white;">#059669</div>
+        </div>
+        <div class="semantic-desc">Successful uploads, verified records, completed workflows.</div>
+      </div>
+    </div>
+    <div class="semantic-card">
+      <div class="semantic-bar" style="background:var(--error);"></div>
+      <div class="semantic-body">
+        <div class="semantic-label" style="color:#DC2626;">✕ Error</div>
+        <div class="semantic-swatches">
+          <div class="semantic-chip" style="background:#FEF2F2; color:#B91C1C;">#FEF2F2</div>
+          <div class="semantic-chip" style="background:#EF4444; color:white;">#EF4444</div>
+          <div class="semantic-chip" style="background:#DC2626; color:white;">#DC2626</div>
+          <div class="semantic-chip" style="background:#B91C1C; color:white;">#B91C1C</div>
+        </div>
+        <div class="semantic-desc">Failed uploads, validation errors, access denied states.</div>
+      </div>
+    </div>
+    <div class="semantic-card">
+      <div class="semantic-bar" style="background:var(--warning);"></div>
+      <div class="semantic-body">
+        <div class="semantic-label" style="color:#F59E0B;">⚠ Warning</div>
+        <div class="semantic-swatches">
+          <div class="semantic-chip" style="background:#FEF3C7; color:#D97706;">#FEF3C7</div>
+          <div class="semantic-chip" style="background:#FBBF24; color:#78350f;">#FBBF24</div>
+          <div class="semantic-chip" style="background:#F59E0B; color:white;">#F59E0B</div>
+          <div class="semantic-chip" style="background:#D97706; color:white;">#D97706</div>
+        </div>
+        <div class="semantic-desc">Pending review, expiring records, caution-state alerts.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ DESIGN PRINCIPLES -->
+<div class="section" style="background:linear-gradient(180deg, rgba(19,16,47,0.5) 0%, transparent 100%);">
+  <div class="section-title"><div class="dot"></div><h2>Design Principles</h2></div>
+  <div class="principles-grid">
+    <div class="principle-card">
+      <span class="principle-icon">🔒</span>
+      <div class="principle-name">Trust & Security</div>
+      <div class="principle-desc">Every surface communicates reliability. Dark, high-contrast interfaces that convey confidentiality and control.</div>
+    </div>
+    <div class="principle-card">
+      <span class="principle-icon">⚡</span>
+      <div class="principle-name">Technology-Forward</div>
+      <div class="principle-desc">Modern, clean layouts with precise type and deliberate use of color. Innovation without distraction.</div>
+    </div>
+    <div class="principle-card">
+      <span class="principle-icon">♿</span>
+      <div class="principle-name">Accessibility First</div>
+      <div class="principle-desc">No pure black or white. High-contrast foreground text. Visible focus rings on every interactive element.</div>
+    </div>
+    <div class="principle-card">
+      <span class="principle-icon">🎯</span>
+      <div class="principle-name">Purposeful Emphasis</div>
+      <div class="principle-desc">Pink Accent and gradients are reserved for moments that demand attention — never used decoratively.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ FOOTER -->
+<div class="guide-footer">
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;">
+  <svg width="28" height="24" viewBox="0 0 181 154.283" fill="none" style="overflow:visible;">
+    <path d="M90.1594 5.11398L5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694L176 96.2769C159.372 91.8997 146.226 71.2975 133.08 50.6954C119.934 30.0933 106.788 9.49119 90.1594 5.11398Z" fill="#F4EEFF" fill-opacity="0.15"/>
+    <path d="M5 20.0587L90.1594 5.11398C106.788 9.49119 119.934 30.0933 133.08 50.6954C146.226 71.2975 159.372 91.8997 176 96.2769M5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694M5 20.0587V126.697M176 96.2769L90.1594 118.694M176 96.2769V126.697M176 96.2769C142.477 105.031 123.682 109.94 90.1594 118.694M90.1594 118.694V149.114M90.1594 118.694C90.1594 133.285 90.1594 134.523 90.1594 149.114M90.1594 149.114L5 126.697M90.1594 149.114L176 126.697M90.1594 149.114C56.9026 140.36 5 126.697 5 126.697M90.1594 149.114C123.682 140.36 176 126.697 176 126.697" stroke="#F4EEFF" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+  </svg>
+  <span style="font-family:'IBM Plex Sans',sans-serif;font-weight:900;font-size:1.2rem;color:#F4EEFF;line-height:1;">Bedrock.</span>
+</div>
+    <div style="font-size:0.68rem;color:var(--gray-400);margin-top:4px;">High-Trust Evidence Workflow Platform</div>
+  </div>
+  <div style="text-align:right;">
+    <div class="footer-version">Brand Guide v1.1 · 2026-03-17</div>
+    <div style="font-size:0.62rem;color:var(--gray-600);margin-top:4px;">© Bedrock · All rights reserved</div>
+  </div>
+</div>
+
+</body>
+</html>

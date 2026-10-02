@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bedrock Tamper Demo</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="grain"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="header-left">
+        <svg class="logo-icon" width="28" height="24" viewBox="0 0 181 154.283" fill="none">
+          <path d="M90.1594 5.11398L5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694L176 96.2769C159.372 91.8997 146.226 71.2975 133.08 50.6954C119.934 30.0933 106.788 9.49119 90.1594 5.11398Z" fill="#F4EEFF" fill-opacity="0.12"/>
+          <path d="M5 20.0587L90.1594 5.11398C106.788 9.49119 119.934 30.0933 133.08 50.6954C146.226 71.2975 159.372 91.8997 176 96.2769M5 20.0587C21.6284 24.4359 34.604 46.9061 47.5797 69.3763C60.5553 91.8466 73.531 114.317 90.1594 118.694M5 20.0587V126.697M176 96.2769L90.1594 118.694M176 96.2769V126.697M176 96.2769C142.477 105.031 123.682 109.94 90.1594 118.694M90.1594 118.694V149.114M90.1594 118.694C90.1594 133.285 90.1594 134.523 90.1594 149.114M90.1594 149.114L5 126.697M90.1594 149.114L176 126.697M90.1594 149.114C56.9026 140.36 5 126.697 5 126.697M90.1594 149.114C123.682 140.36 176 126.697 176 126.697" stroke="#F4EEFF" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+        </svg>
+        <span class="logo-text">Bedrock.</span>
+        <span class="header-divider"></span>
+        <span class="header-label">Tamper Demo</span>
+      </div>
+      <div class="header-right">
+        <span class="header-tag">Evidence Integrity Tool</span>
+      </div>
+    </div>
+    <div class="header-accent"></div>
+  </header>
+
+  <main>
+    <!-- Upload Zone -->
+    <section id="upload-zone" class="upload-zone">
+      <div class="upload-border">
+        <div class="upload-content">
+          <svg class="upload-icon-svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="4" y="22" width="32" height="14" rx="3" stroke="#6750A4" stroke-width="2" fill="none"/>
+            <path d="M20 6v18M14 12l6-6 6 6" stroke="#8B78C1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p class="upload-text">Drop a video file to tamper</p>
+          <p class="upload-subtext">.webm, .mp4 or any video format</p>
+          <input type="file" id="file-input" accept="video/*" hidden />
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section id="dashboard" class="dashboard hidden">
+
+      <div class="left-col">
+
+        <div class="card file-card">
+          <div class="card-header">
+            <span class="card-label">Source File</span>
+            <span class="card-badge" id="status-badge">Analyzed</span>
+          </div>
+          <div id="video-details"></div>
+        </div>
+
+        <div class="card stats-card">
+          <div class="card-header">
+            <span class="card-label">Corruption Target</span>
+          </div>
+          <div id="stats-cards"></div>
+        </div>
+
+        <button id="tamper-btn" class="tamper-btn">
+          <span class="tamper-btn-text">Inject Corruption</span>
+          <span class="tamper-btn-sub">Direct byte injection — no re-encode</span>
+        </button>
+
+        <div class="card editor-card">
+          <div class="editor-label">Why Not Just Use a Video Editor?</div>
+          <div class="editor-note">Live explanation during presentation</div>
+        </div>
+
+      </div>
+
+      <div class="right-col">
+        <div class="card hex-card">
+          <div class="card-header">
+            <span class="card-label">Byte-Level Diff</span>
+            <span class="hex-meta" id="hex-status">Waiting for tamper...</span>
+          </div>
+          <div id="hex-diff" class="hex-diff"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Face Swap -->
+    <section id="faceswap-zone" class="faceswap-zone hidden">
+      <div class="card faceswap-card">
+        <div class="card-header">
+          <span class="card-label">Face Overlay</span>
+          <span class="card-badge" id="faceswap-badge">Ready</span>
+        </div>
+        <p class="faceswap-desc">Upload a face photo — it will be overlaid on every detected face in the video. No re-encode of untouched frames.</p>
+        <div class="faceswap-row">
+          <label class="face-upload-label" id="face-upload-label">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-right:7px;flex-shrink:0">
+              <rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <circle cx="5.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.2" fill="none"/>
+              <path d="M1 11l3.5-3 2.5 2.5 2.5-2 4 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span id="face-upload-text">Choose face photo</span>
+            <input type="file" id="face-input" accept="image/*" hidden />
+          </label>
+          <button id="faceswap-btn" class="faceswap-btn" disabled>
+            Run Face Swap
+          </button>
+        </div>
+        <div id="faceswap-progress-wrap" class="faceswap-progress-wrap hidden">
+          <div class="faceswap-progress-track">
+            <div class="faceswap-progress-bar" id="faceswap-progress-bar"></div>
+          </div>
+          <span class="faceswap-progress-label" id="faceswap-progress-label">0%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Download bar -->
+    <!-- Video Preview -->
+    <section id="video-preview" class="video-preview hidden">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-label">Tampered Segment Preview</span>
+          <span class="card-badge" id="preview-badge">Playing</span>
+        </div>
+        <video id="preview-player" controls style="width:100%;border-radius:8px;margin-top:8px;background:#000;"></video>
+      </div>
+    </section>
+
+    <!-- Download bar -->
+    <section id="download-bar" class="download-bar hidden">
+      <div class="download-inner">
+        <div class="download-info">
+          <span class="download-label">Tampered file ready</span>
+          <span id="download-path" class="download-path"></span>
+        </div>
+        <button id="play-btn" class="download-btn" style="margin-right:8px;background:var(--purple);color:#fff;">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="margin-right:8px">
+            <polygon points="4,2 14,8 4,14" fill="currentColor"/>
+          </svg>
+          Play in VLC
+        </button>
+        <button id="download-btn" class="download-btn">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="margin-right:8px">
+            <path d="M8 2v8m0 0L5 7m3 3l3-3M3 12v1h10v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Download
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

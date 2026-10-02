@@ -1,0 +1,254 @@
+<mxfile host="app.diagrams.net" modified="2026-03-29" agent="Claude" version="24.0.0">
+  <diagram name="BedRock Verification Flow" id="bedrock-verification-flow">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ═══════════════════════════════ TITLE ═══════════════════════════════ -->
+        <mxCell id="title" value="BedRock — Video Verification Flow" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="660" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ PHASE SWIMLANES ═══════════════════════════════ -->
+
+        <!-- Phase 1 Label -->
+        <mxCell id="ph1_label" value="PHASE 1&#xa;Segment Hashing" style="text;html=1;strokeColor=none;fillColor=#dae8fc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#1a73e8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="90" width="130" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 2 Label -->
+        <mxCell id="ph2_label" value="PHASE 2&#xa;Rolling Hash Chain" style="text;html=1;strokeColor=none;fillColor=#d5e8d4;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#2e7d32;" vertex="1" parent="1">
+          <mxGeometry x="30" y="320" width="130" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 3 Label -->
+        <mxCell id="ph3_label" value="PHASE 3&#xa;On-Chain Lookup" style="text;html=1;strokeColor=none;fillColor=#ffe6cc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#e65100;" vertex="1" parent="1">
+          <mxGeometry x="30" y="550" width="130" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 4 Label -->
+        <mxCell id="ph4_label" value="PHASE 4&#xa;On-Chain Trail" style="text;html=1;strokeColor=none;fillColor=#e1d5e7;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#6a1b9a;" vertex="1" parent="1">
+          <mxGeometry x="30" y="780" width="130" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 5 Label -->
+        <mxCell id="ph5_label" value="PHASE 5&#xa;Comparison" style="text;html=1;strokeColor=none;fillColor=#f8cecc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#b71c1c;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1010" width="130" height="170" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ START ═══════════════════════════════ -->
+        <mxCell id="start" value="START&#xa;Raw Video Buffer" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;strokeColor=#4a4e8c;fontColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="90" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ PHASE 1 NODES ═══════════════════════════════ -->
+
+        <mxCell id="p1_slice" value="Slice buffer into SEG_SIZE chunks&#xa;(1,310,720 bytes = 1.25 MB each)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1a73e8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="190" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1_pad" value="Zero-pad last chunk to exactly SEG_SIZE bytes&#xa;(paddedChunk = new Uint8Array(SEG_SIZE); paddedChunk.set(chunk))" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1a73e8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="260" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1_hash" value="segHash_i = SHA-256(paddedChunk_i)&#xa;→ 32-byte digest per segment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1a73e8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="330" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ PHASE 2 NODES ═══════════════════════════════ -->
+
+        <mxCell id="p2_genesis" value="Genesis: roll_0 = SHA-256(segHash_0)&#xa;→ Identity Hash (unique video key)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2e7d32;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="420" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p2_chain" value="Chain: roll_i = SHA-256(roll_{i-1} ∥ segHash_i)&#xa;for each subsequent segment i ≥ 1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2e7d32;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="490" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p2_final" value="calculatedFinalHash = roll_{N-1}&#xa;(last entry in the rolling hash trail)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2e7d32;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="560" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ PHASE 3 NODES ═══════════════════════════════ -->
+
+        <mxCell id="p3_firsthash" value="firstHash = roll_0 (identity key)&#xa;Query: grandfather.getSubcontractByFirstHash(firstHash)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#e65100;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="650" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p3_decision" value="Subcontract&#xa;address found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#e65100;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="720" width="180" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ END STATE 3 ═══════════════════════════════ -->
+        <mxCell id="es3" value="END STATE 3&#xa;NOT FOUND / ERROR&#xa;&#xa;• hint present → 'No Blockchain Record Found'&#xa;• hint absent → 'Verification Error'&#xa;&#xa;Cause A: First segment was tampered&#xa;(identity hash changed, lookup fails)&#xa;Cause B: Recording still writing to chain" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="990" y="700" width="320" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ PHASE 4 NODES ═══════════════════════════════ -->
+
+        <mxCell id="p4_auth" value="Authorize: grandfather.isAuthorizedChild(subcontractAddress)&#xa;→ reject forged contracts immediately" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#6a1b9a;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="840" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p4_state" value="Read Subcontract state: totalEntries, deploymentBlock,&#xa;isInitialized, isFinalized, owner" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#6a1b9a;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="910" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p4_events" value="Scrape HashRecorded events in 25,000-block chunks&#xa;from deploymentBlock → latestBlock; sort by sequence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#6a1b9a;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="980" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p4_retry" value="events.length &lt; totalEntries?&#xa;→ Retry up to 10× with exponential backoff (1s–8s)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#6a1b9a;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1050" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p4_onchainfinal" value="onChainFinalHash = last event's newHash" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#6a1b9a;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1120" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ PHASE 5 NODE ═══════════════════════════════ -->
+
+        <mxCell id="p5_compare" value="Compare calculatedTrail[i].rollingHex&#xa;vs onChainTrail[i].newHash — position by position" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b71c1c;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1210" width="340" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p5_decision" value="All hashes&#xa;match?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b71c1c;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="1280" width="180" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ END STATE 1 ═══════════════════════════════ -->
+        <mxCell id="es1" value="END STATE 1&#xa;✓ VERIFIED — Video is Authentic&#xa;&#xa;• verified: true&#xa;• All rolling hashes match on-chain trail&#xa;• Trails are equal length&#xa;&#xa;UI: Green ShieldCheck icon" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2e7d32;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1420" width="340" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ END STATE 2 ═══════════════════════════════ -->
+        <mxCell id="es2" value="END STATE 2&#xa;✗ TAMPERED — Video Has Been Modified&#xa;&#xa;• verified: false&#xa;• divergenceSegmentIndex (first mismatch)&#xa;• divergenceByteOffset = index × SEG_SIZE&#xa;• segmentStartSecond / segmentEndSecond&#xa;• calculatedHash vs onChainHash&#xa;&#xa;UI: Red XCircle + segment timeline&#xa;All segments after divergence = cascade-affected" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b71c1c;fontSize=11;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="990" y="1250" width="320" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ ARROWS ═══════════════════════════════ -->
+
+        <!-- Start → Slice -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="start" target="p1_slice" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Slice → Pad -->
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p1_slice" target="p1_pad" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Pad → segHash -->
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p1_pad" target="p1_hash" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- segHash → Genesis -->
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p1_hash" target="p2_genesis" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Genesis → Chain -->
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p2_genesis" target="p2_chain" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Chain → FinalHash -->
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p2_chain" target="p2_final" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- FinalHash → OnChain Lookup -->
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p2_final" target="p3_firsthash" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Lookup → Decision -->
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p3_firsthash" target="p3_decision" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision → NO → End State 3 -->
+        <mxCell id="e9" value="NO&#xa;(zero address)" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeColor=#d6b656;fontColor=#d6b656;fontStyle=1;" edge="1" source="p3_decision" target="es3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision → YES → Authorize -->
+        <mxCell id="e10" value="YES" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeColor=#2e7d32;fontColor=#2e7d32;fontStyle=1;" edge="1" source="p3_decision" target="p4_auth" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Auth → State -->
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p4_auth" target="p4_state" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- State → Events -->
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p4_state" target="p4_events" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Events → Retry -->
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p4_events" target="p4_retry" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Retry → OnChainFinal -->
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p4_retry" target="p4_onchainfinal" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- OnChainFinal → Compare -->
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p4_onchainfinal" target="p5_compare" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Compare → Decision -->
+        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p5_compare" target="p5_decision" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision → YES → End State 1 -->
+        <mxCell id="e17" value="YES" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeColor=#2e7d32;fontColor=#2e7d32;fontStyle=1;" edge="1" source="p5_decision" target="es1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision → NO → End State 2 -->
+        <mxCell id="e18" value="NO&#xa;(divergence at index i)" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeColor=#b71c1c;fontColor=#b71c1c;fontStyle=1;" edge="1" source="p5_decision" target="es2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ═══════════════════════════════ LEGEND ═══════════════════════════════ -->
+        <mxCell id="legend_title" value="Legend" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="90" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="Phase 1: Segment Hashing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1a73e8;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="130" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="Phase 2: Rolling Hash Chain" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2e7d32;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="170" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="Phase 3: On-Chain Lookup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#e65100;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="210" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="Phase 4: On-Chain Trail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#6a1b9a;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="250" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" value="Phase 5: Comparison" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b71c1c;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="290" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg6" value="END STATE 1: VERIFIED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2e7d32;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="340" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg7" value="END STATE 2: TAMPERED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b71c1c;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="380" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg8" value="END STATE 3: NOT FOUND / ERROR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="420" width="220" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

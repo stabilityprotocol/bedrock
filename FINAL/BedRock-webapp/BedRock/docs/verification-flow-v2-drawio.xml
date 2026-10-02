@@ -1,0 +1,182 @@
+<mxfile host="app.diagrams.net" modified="2026-04-18" agent="Claude" version="24.0.0">
+  <diagram name="BedRock Verification Flow v2" id="bedrock-verification-flow-v2">
+    <mxGraphModel dx="1422" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="BedRock — Video Verification Flow" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="600" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Fast-path via Grandfather.registry().finalHash — event trail fetch is conditional" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#555;" vertex="1" parent="1">
+          <mxGeometry x="300" y="58" width="600" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- Phase labels (left rail) -->
+        <mxCell id="ph1_label" value="PHASE 1&#xa;Genesis Hash&#xa;+ Lookup" style="text;html=1;strokeColor=none;fillColor=#dae8fc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#1a73e8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="120" width="130" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="ph2_label" value="PHASE 2&#xa;Hash File&#xa;+ Read Summary&#xa;(concurrent)" style="text;html=1;strokeColor=none;fillColor=#d5e8d4;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#2e7d32;" vertex="1" parent="1">
+          <mxGeometry x="30" y="330" width="130" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="ph3_label" value="PHASE 3&#xa;Fast-path&#xa;Final Hash Check" style="text;html=1;strokeColor=none;fillColor=#ffe6cc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#e65100;" vertex="1" parent="1">
+          <mxGeometry x="30" y="560" width="130" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="ph4_label" value="PHASE 4&#xa;Trail Fetch&#xa;+ Position-by-Position&#xa;(conditional)" style="text;html=1;strokeColor=none;fillColor=#e1d5e7;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#6a1b9a;" vertex="1" parent="1">
+          <mxGeometry x="30" y="730" width="130" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="end_label" value="TERMINAL&#xa;STATES" style="text;html=1;strokeColor=none;fillColor=#f8cecc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;fontStyle=1;fontColor=#b71c1c;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1020" width="130" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- START -->
+        <mxCell id="start" value="POST /api/verify&#xa;(Video file buffer)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;strokeColor=#4a4e8c;fontColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="80" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ============== PHASE 1 ============== -->
+        <mxCell id="p1_hash" value="Compute Genesis Hash&#xa;genesis = SHA-256(SHA-256(zeroPad(segment_0, 1.25 MB)))" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1a73e8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="420" y="155" width="360" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1_lookup" value="Grandfather.getSubcontractByFirstHash(genesis)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1a73e8;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="230" width="360" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Not found branch -->
+        <mxCell id="p1_notfound" value="End State 3&#xa;NOT FOUND&#xa;(never recorded OR segment 0 tampered)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b71c1c;fontSize=11;fontStyle=1;fontColor=#b71c1c;" vertex="1" parent="1">
+          <mxGeometry x="850" y="240" width="300" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ============== PHASE 2 (concurrent inside) ============== -->
+        <mxCell id="p2_container" value="Phase 2 — run concurrently" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2e7d32;dashed=1;fontSize=10;fontStyle=2;fontColor=#2e7d32;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="200" y="340" width="800" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p2a_hash" value="2A. hashVideoBuffer(file)&#xa;&#xa;• Full rolling-hash chain, all segments&#xa;• Produces records[0..N-1] and calcFinal&#xa;&#xa;(CPU-bound)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2e7d32;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="230" y="370" width="340" height="135" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p2b_summary" value="2B. readOnChainSummary()&#xa;&#xa;• Grandfather.isAuthorizedChild(sc)&#xa;• subcontract state (totalEntries, ...)&#xa;• Grandfather.registry(sc) → finalHash&#xa;&#xa;(one parallel RPC batch)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2e7d32;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="630" y="370" width="340" height="135" as="geometry" />
+        </mxCell>
+
+        <!-- ============== PHASE 3 — Fast-path compare ============== -->
+        <mxCell id="p3_compare" value="calcFinal  ==  registry.finalHash ?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#e65100;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="570" width="360" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Fast-path VERIFIED -->
+        <mxCell id="p3_verified_fast" value="End State 1&#xa;VERIFIED&#xa;(fast path — no event trail needed)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2e7d32;fontSize=11;fontStyle=1;fontColor=#2e7d32;" vertex="1" parent="1">
+          <mxGeometry x="850" y="590" width="300" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ============== PHASE 4 — Full trail + Position compare (merged) ============== -->
+        <mxCell id="p4_fetch" value="Fetch full on-chain trail&#xa;subcontract.queryFilter(HashRecorded, fromBlock, toBlock)&#xa;• Paginated 25,000 blocks/chunk&#xa;• Retried ≤10× with 1–8 s backoff (eventual-consistency safety)&#xa;• Sorted by sequence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#6a1b9a;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="380" y="740" width="440" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p4_walk" value="Walk trails element-by-element&#xa;for i = 0 .. min(calcLen, chainLen) − 1:&#xa;    calcHash[i]  ==  onChainTrail[i].newHash ?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#6a1b9a;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="380" y="860" width="440" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Three-way branch from the walk -->
+        <mxCell id="p4_decision" value="outcome?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#6a1b9a;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="960" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ============== TERMINAL STATES (Phase 4 outcomes) ============== -->
+        <mxCell id="es_tampered" value="End State 2.1&#xa;TAMPERED&#xa;(divergence at segment i;&#xa;byte offset = i × 1,310,720;&#xa;time window from bitrate)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b71c1c;fontSize=11;fontStyle=1;fontColor=#b71c1c;" vertex="1" parent="1">
+          <mxGeometry x="200" y="1050" width="300" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="es_verified_slow" value="End State 1&#xa;VERIFIED&#xa;(all positions match,&#xa;lengths equal — rare path;&#xa;fast path normally catches)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#2e7d32;fontSize=11;fontStyle=1;fontColor=#2e7d32;" vertex="1" parent="1">
+          <mxGeometry x="520" y="1050" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="es_partial" value="End State 2.2&#xa;PARTIAL CLIP&#xa;(all compared segments match,&#xa;calcLen &lt; chainLen —&#xa;byte-prefix of original)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;fontColor=#8a6d00;" vertex="1" parent="1">
+          <mxGeometry x="750" y="1050" width="300" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ============== EDGES ============== -->
+
+        <!-- Start → Phase 1 hash -->
+        <mxCell id="e_start_p1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#333;strokeWidth=2;" edge="1" parent="1" source="start" target="p1_hash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 1 hash → lookup -->
+        <mxCell id="e_p1h_p1l" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#1a73e8;strokeWidth=2;" edge="1" parent="1" source="p1_hash" target="p1_lookup">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Lookup → Not Found (zero address) -->
+        <mxCell id="e_p1l_nf" value="zero address" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#b71c1c;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1" source="p1_lookup" target="p1_notfound">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Lookup → Phase 2 (valid address) -->
+        <mxCell id="e_p1l_p2" value="valid address" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#2e7d32;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1" source="p1_lookup" target="p2_container">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Phase 2 (both boxes) → Phase 3 compare -->
+        <mxCell id="e_p2a_p3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#2e7d32;strokeWidth=2;" edge="1" parent="1" source="p2a_hash" target="p3_compare">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_p2b_p3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#2e7d32;strokeWidth=2;" edge="1" parent="1" source="p2b_summary" target="p3_compare">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 3 → Verified (fast path) -->
+        <mxCell id="e_p3_verf" value="yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#2e7d32;strokeWidth=3;fontSize=12;fontStyle=1;" edge="1" parent="1" source="p3_compare" target="p3_verified_fast">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 3 → Phase 4 (slow path) -->
+        <mxCell id="e_p3_p4" value="no&#xa;(mismatch — might be tampered or partial)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#6a1b9a;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1" source="p3_compare" target="p4_fetch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 4 fetch → walk -->
+        <mxCell id="e_p4f_p4w" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#6a1b9a;strokeWidth=2;" edge="1" parent="1" source="p4_fetch" target="p4_walk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Walk → decision -->
+        <mxCell id="e_p4w_dec" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#6a1b9a;strokeWidth=2;" edge="1" parent="1" source="p4_walk" target="p4_decision">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision → Tampered -->
+        <mxCell id="e_dec_tamp" value="divergence at i" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#b71c1c;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1" source="p4_decision" target="es_tampered">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision → Verified (slow) -->
+        <mxCell id="e_dec_verf" value="all match,&#xa;lengths equal" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#2e7d32;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1" source="p4_decision" target="es_verified_slow">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Decision → Partial -->
+        <mxCell id="e_dec_part" value="all match,&#xa;calcLen &lt; chainLen" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=classic;html=1;strokeColor=#d6b656;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1" source="p4_decision" target="es_partial">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend_box" value="Legend" style="text;html=1;strokeColor=#999;fillColor=#fafafa;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="1190" width="850" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_text" value="&#x2022;  Phase 2A and 2B run concurrently inside the backend — the CPU hash overlaps the one parallel RPC batch (auth + state + registry).&#xa;&#x2022;  The event-trail query (Phase 4) is CONDITIONAL — it only runs when the fast-path final-hash compare fails. Verified videos skip it entirely.&#xa;&#x2022;  Phase 4's walk terminates at the first divergence (Tampered) or, if all compared positions match, branches on length: equal → Verified; shorter → Partial Clip.&#xa;&#x2022;  End State 3 (Not Found) is reached only from Phase 1 when the genesis hash has no registry entry." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#444;" vertex="1" parent="1">
+          <mxGeometry x="210" y="1210" width="830" height="70" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
